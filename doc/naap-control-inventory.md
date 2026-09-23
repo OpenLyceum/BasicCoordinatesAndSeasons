@@ -617,7 +617,7 @@ embeds with no teaching text** — nothing usable beyond confirming panel pixel 
 
 ### skyMap / cec_sky (Sky Map Explorer)
 - The guide treats the two CEC explorers interchangeably — "Open **either** the Flat Sky Map Explorer **or** the Sky Map Explorer" — and lists the **same feature set** (cursor, shift map, decimal/sexagesimal, check boxes) (p.3). All Q6–Q10 fixtures above apply to this explorer too.
-- This is the **3-D celestial-sphere** analogue of the flat sky map (relationship mirrors globe↔flat map): same RA/DEC readout, drag to reorient the sphere. Per-animation HTML has no extra prose. (The RotatingSky sibling's SkyProjection view is the closest existing code, per CLAUDE.md.)
+- This is the **3-D celestial-sphere** analogue of the flat sky map (relationship mirrors globe↔flat map): same RA/DEC readout, drag to reorient the sphere. Per-animation HTML has no extra prose. (The RotatingSky sibling's SkyProjection view is the closest existing code, per AGENTS.md.)
 
 ### eclipticSimulator / seasons_ecliptic (Seasons and Ecliptic Simulator)
 Richest section (guide p.4–8). **Three panels (left, upper-right, lower-right), each with two selectable views = six views total.** Shared controls run along the bottom.
@@ -633,7 +633,7 @@ Richest section (guide p.4–8). **Three panels (left, upper-right, lower-right)
 - **Q15 latitude fixtures**: 0°, 23.5°N, 41°N, 66.5°N, 90°N. Worked example for the **equator (0°)**: noon sun altitude = **90° at vernal equinox, 66.5° at summer solstice, 90° at autumnal equinox, 66.5° at winter solstice** (p.8).
 
 ### Physics statements from the prose
-- **Obliquity = 23.5°** stated explicitly: "Earth's obliquity is 23.5°" (`orbits_light.html`). The seasons student guide uses **23.5°** and **66.5°** throughout (latitudes 23.5°N & 66.5°N in Q15; DEC +16.5° example; equator solstice altitude 66.5°). ⚠️ Slight inconsistency to resolve in the port: `tc_units.html` lists the **Tropic of Cancer/Capricorn at 23°27′ (≈23.45°)** and **Arctic/Antarctic Circle at 66°33′ (≈66.55°)**, while the seasons prose rounds to 23.5°/66.5°. (CLAUDE.md flags "23.4° vs 23.5°" — the docs say **23.5°**.)
+- **Obliquity = 23.5°** stated explicitly: "Earth's obliquity is 23.5°" (`orbits_light.html`). The seasons student guide uses **23.5°** and **66.5°** throughout (latitudes 23.5°N & 66.5°N in Q15; DEC +16.5° example; equator solstice altitude 66.5°). ⚠️ Slight inconsistency to resolve in the port: `tc_units.html` lists the **Tropic of Cancer/Capricorn at 23°27′ (≈23.45°)** and **Arctic/Antarctic Circle at 66°33′ (≈66.55°)**, while the seasons prose rounds to 23.5°/66.5°. (AGENTS.md flags "23.4° vs 23.5°" — the docs say **23.5°**.)
 - **Sun's declination range = ±23.5°**, ecliptic average declination 0° (Q10, p.4). Ecliptic traces a sinusoid on the flat sky map.
 - **Most-direct-ray latitude = sun's declination** (as a latitude); **least-direct-ray latitude = 90° − |declination|, in the opposite hemisphere** (derived from the May 5 example: dec +16.5° → most 16.5°N, least 73.5°S) (Q11/Q12, p.7).
 - **Noon-altitude relationship**: at a latitude equal to the sun's declination the noon sun is at the zenith (90° altitude); it drops to 0° (on the horizon) at the least-direct latitude (p.6). At the equator, noon altitude = 90° at equinoxes and 90° − 23.5° = 66.5° at solstices (p.8).
