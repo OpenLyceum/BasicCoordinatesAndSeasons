@@ -138,4 +138,4 @@ Sphere scenes follow RotatingSky paint order: `backLayer` (dashed far side) → 
 
 ## Multi-screen simulations
 
-Three independent screen models — no shared root state. See [multi-screen.md](./multi-screen.md) for the fleet pattern.
+Three independent screen models — no shared root state. See [SceneryStackTemplate `doc/multi-screen.md`](https://github.com/OpenLyceum/SceneryStackTemplate/blob/main/doc/multi-screen.md) for the fleet pattern.
