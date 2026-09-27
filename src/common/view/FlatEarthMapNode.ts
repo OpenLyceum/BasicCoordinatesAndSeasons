@@ -20,7 +20,7 @@
  * latitude labels sit fixed just outside the left edge.
  */
 
-import { Multilink, type NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import { DerivedProperty, Multilink, type NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import { Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { Circle, DragListener, KeyboardListener, Line, Node, Path, Rectangle, Text } from "scenerystack/scenery";
@@ -354,14 +354,20 @@ export class FlatEarthMapNode extends Node {
     // these never pan.
     const latitudeLabels = new Node({ pickable: false });
     for (let lat = -60; lat <= 60; lat += 30) {
-      latitudeLabels.addChild(
-        new Text(`${Math.abs(lat)}°${lat > 0 ? "N" : lat < 0 ? "S" : ""}`, {
-          font: labelFont,
-          fill: BasicCoordinatesAndSeasonsColors.cardinalLabelColorProperty,
-          right: -LABEL_GAP,
-          centerY: latToY(lat),
-        }),
+      const labelStringProperty = new DerivedProperty(
+        [controls.northStringProperty, controls.southStringProperty],
+        (north, south) => `${Math.abs(lat)}°${lat > 0 ? north : lat < 0 ? south : ""}`,
       );
+      const label = new Text(labelStringProperty, {
+        font: labelFont,
+        fill: BasicCoordinatesAndSeasonsColors.cardinalLabelColorProperty,
+        centerY: latToY(lat),
+      });
+      // Keep right-aligned to the map edge when the locale changes the suffix width.
+      label.localBoundsProperty.link(() => {
+        label.right = -LABEL_GAP;
+      });
+      latitudeLabels.addChild(label);
     }
 
     // Alternating black/white cartographic neatline, cells sized to the grid

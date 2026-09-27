@@ -18,6 +18,7 @@ import { Circle, Node, Path, Text, type TPaint } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
 import { OBLIQUITY_DEGREES } from "../../BasicCoordinatesAndSeasonsConstants.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import { raDecToVector3 } from "../SkyCoordinates.js";
 import type { SkyProjection } from "../SkyProjection.js";
 import { addSplitSmoothPolyline, projectSplitSmoothPolyline, smallCirclePoints } from "./skyGraphics.js";
@@ -115,10 +116,11 @@ export class CelestialSphereNode extends Node {
       new Circle(POLE_DOT_RADIUS, { fill: BasicCoordinatesAndSeasonsColors.cardinalLabelColorProperty });
     const ncpDot = poleDot();
     const scpDot = poleDot();
-    const poleLabel = (label: string): Text =>
+    const controls = StringManager.getInstance().getControls();
+    const poleLabel = (label: TReadOnlyProperty<string>): Text =>
       new Text(label, { font: new PhetFont(12), fill: BasicCoordinatesAndSeasonsColors.cardinalLabelColorProperty });
-    const ncpText = poleLabel("NCP");
-    const scpText = poleLabel("SCP");
+    const ncpText = poleLabel(controls.northCelestialPoleAbbreviationStringProperty);
+    const scpText = poleLabel(controls.southCelestialPoleAbbreviationStringProperty);
 
     const celestialEquatorBackLayer = new Node({ children: [equatorBack] });
     const celestialEquatorFrontLayer = new Node({ children: [equatorFront] });
@@ -127,10 +129,13 @@ export class CelestialSphereNode extends Node {
     // Equinox / solstice markers.
     const markerFont = new PhetFont(10);
     const markerColor = BasicCoordinatesAndSeasonsColors.textColorProperty;
-    const veText = new Text("VE", { font: markerFont, fill: markerColor });
-    const aeText = new Text("AE", { font: markerFont, fill: markerColor });
-    const ssText = new Text("SS", { font: markerFont, fill: markerColor });
-    const wsText = new Text("WS", { font: markerFont, fill: markerColor });
+    const veText = new Text(controls.vernalEquinoxAbbreviationStringProperty, { font: markerFont, fill: markerColor });
+    const aeText = new Text(controls.autumnalEquinoxAbbreviationStringProperty, {
+      font: markerFont,
+      fill: markerColor,
+    });
+    const ssText = new Text(controls.summerSolsticeAbbreviationStringProperty, { font: markerFont, fill: markerColor });
+    const wsText = new Text(controls.winterSolsticeAbbreviationStringProperty, { font: markerFont, fill: markerColor });
     const equinoxSolsticeNode = new Node({ children: [veText, aeText, ssText, wsText] });
 
     this.backLayer = new Node({
