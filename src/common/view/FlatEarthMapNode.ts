@@ -231,6 +231,8 @@ const BORDER_THICKNESS = 7;
 const LABEL_GAP = 3;
 /** Height (px) of the clipped strip above the map that holds the panning meridian labels. */
 const TOP_LABEL_STRIP = 16;
+/** How far the panning top-label strip may extend past each map edge, px. */
+const TOP_LABEL_OVERHANG = 20;
 /** Checker cells: 8 across (every 45°) and 6 down (every 30°). */
 const BORDER_SEGMENTS_X = 8;
 const BORDER_SEGMENTS_Y = 6;
@@ -347,7 +349,9 @@ export class FlatEarthMapNode extends Node {
     const topLabelStrip = new Node({
       children: [topLabelTiles],
       pickable: false,
-      clipArea: Shape.rect(0, -TOP_LABEL_STRIP, width, TOP_LABEL_STRIP),
+      // Overhang the map edges by half a label so the label at the seam is shown
+      // whole (clipping exactly at the edge cut it in half, e.g. "180°" → "0°").
+      clipArea: Shape.rect(-TOP_LABEL_OVERHANG, -TOP_LABEL_STRIP, width + 2 * TOP_LABEL_OVERHANG, TOP_LABEL_STRIP),
     });
 
     // Latitude labels sit just outside the left edge; parallels are horizontal so
