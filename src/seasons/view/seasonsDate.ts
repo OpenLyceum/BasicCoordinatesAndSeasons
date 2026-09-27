@@ -7,6 +7,7 @@
  */
 
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import { StringUtils } from "scenerystack/phetcommon";
 import { StringManager } from "../../i18n/StringManager.js";
 import type { SeasonsModel } from "../model/SeasonsModel.js";
 
@@ -31,8 +32,9 @@ export function createSeasonsDateProperty(model: SeasonsModel): TReadOnlyPropert
   return DerivedProperty.deriveAny([model.monthDayProperty, controls.datePatternStringProperty, ...monthProps], () => {
     const monthDay = model.monthDayProperty.value;
     const monthName = monthProps[monthDay.monthIndex]?.value ?? "";
-    return controls.datePatternStringProperty.value
-      .replace("{{month}}", monthName)
-      .replace("{{day}}", String(monthDay.dayOfMonth));
+    return StringUtils.fillIn(controls.datePatternStringProperty.value, {
+      month: monthName,
+      day: String(monthDay.dayOfMonth),
+    });
   });
 }
