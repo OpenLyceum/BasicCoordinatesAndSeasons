@@ -1,8 +1,7 @@
 # Implementation Notes - Basic Coordinates and Seasons
 
 Developer-facing notes on the architecture. Educator-facing physics and pedagogy are in
-[model.md](./model.md). NAAP Flash control defaults and formula cross-checks live in
-[naap-control-inventory.md](./naap-control-inventory.md).
+[model.md](./model.md).
 
 ## Architecture Overview
 

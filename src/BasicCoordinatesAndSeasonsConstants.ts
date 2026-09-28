@@ -80,7 +80,7 @@ export const COORDINATE_FORMAT_VALUES = ["decimal", "sexagesimal"] as const sati
 
 // ── Observer coordinate ranges & defaults (degrees) ───────────────────────────
 // NAAP's default location is Lincoln, NE (40.8° N, 96.7° W), verified against the
-// decompiled mapExplorer010/longLatDemo014 `onReset` — see doc/naap-control-inventory.md.
+// decompiled mapExplorer010/longLatDemo014 `onReset`.
 
 /** Default observer latitude (°, +N). */
 export const DEFAULT_LATITUDE = 40.8;
@@ -107,7 +107,7 @@ export const DAYS_PER_YEAR = 365.24;
 /**
  * Playback rate for the Seasons animation: simulated days advanced per real
  * second while playing. NAAP's eclipticSimulator uses ~5 days/s (animateRate
- * 0.005 days/ms) — see doc/naap-control-inventory.md.
+ * 0.005 days/ms).
  */
 export const SEASONS_ANIMATION_DAYS_PER_SECOND = 5;
 

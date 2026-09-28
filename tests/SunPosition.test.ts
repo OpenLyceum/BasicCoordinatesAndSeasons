@@ -1,8 +1,7 @@
 /**
  * SunPosition.test.ts
  *
- * Pins the solar-position math against the cardinal points of the year and the
- * worked examples in doc/naap-control-inventory.md.
+ * Pins the solar-position math against the cardinal points of the year.
  */
 
 import { describe, expect, it } from "vitest";

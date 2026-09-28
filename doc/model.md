@@ -128,6 +128,5 @@ sim does **not** compute daylight duration — only noon altitude and geometric 
 ## References
 
 - NAAP "Basic Coordinates and Seasons" lab: https://astro.unl.edu/naap/motion1/motion1.html
-- NAAP student guide: `naap_motion1_sg.pdf` (referenced in `doc/naap-control-inventory.md`)
-- In-repo NAAP control inventory and Flash formula cross-checks: `doc/naap-control-inventory.md`
+- NAAP student guide: `naap_motion1_sg.pdf`
 - Sibling sim **RotatingSky** (motion2) — shared sky-engine lineage (`SkyProjection`, horizon math)
