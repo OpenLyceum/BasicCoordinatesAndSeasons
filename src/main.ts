@@ -36,20 +36,22 @@ onReadyToLaunch(() => {
   // Simulation-specific preferences; initial values come from basicCoordinatesAndSeasonsQueryParameters.
   const simPreferences = new BasicCoordinatesAndSeasonsPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
-  // Screen name Properties update automatically when the locale changes.
   const screens = [
     new TerrestrialScreen({
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.terrestrialStringProperty,
       tandem: Tandem.ROOT.createTandem("terrestrialScreen"),
       backgroundColorProperty: BasicCoordinatesAndSeasonsColors.backgroundColorProperty,
       earthMapResolutionProperty: simPreferences.earthMapResolutionProperty,
     }),
     new CelestialScreen({
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.celestialStringProperty,
       tandem: Tandem.ROOT.createTandem("celestialScreen"),
       backgroundColorProperty: BasicCoordinatesAndSeasonsColors.backgroundColorProperty,
     }),
     new SeasonsScreen({
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.seasonsStringProperty,
       tandem: Tandem.ROOT.createTandem("seasonsScreen"),
       backgroundColorProperty: BasicCoordinatesAndSeasonsColors.backgroundColorProperty,
@@ -77,6 +79,7 @@ onReadyToLaunch(() => {
       },
     }),
 
+    // Optional: fill in credits shown in Help → About
     credits: {
       leadDesign: "NAAP / OpenLyceum",
       softwareDevelopment: "OpenLyceum",
