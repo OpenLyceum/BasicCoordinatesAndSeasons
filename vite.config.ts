@@ -46,6 +46,8 @@ const securityHeaders: Record<string, string> = {
     "frame-ancestors 'none'",
   ].join("; "),
   "Referrer-Policy": "strict-origin-when-cross-origin",
+  // geolocation=(self): the terrestrial screen reads navigator.geolocation.
+  // A locked policy logs a console error on every request and fails fuzz.
   "Permissions-Policy": "camera=(), microphone=(), geolocation=(self)",
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "DENY",
