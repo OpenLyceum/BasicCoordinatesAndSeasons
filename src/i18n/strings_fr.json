@@ -73,6 +73,8 @@
   },
   "controls": {
     "latitude": "Latitude",
+    "unknownValue": "—",
+    "fieldLabelPattern": "{{label}}:",
     "longitude": "Longitude",
     "rightAscension": "AD",
     "declination": "Déc",

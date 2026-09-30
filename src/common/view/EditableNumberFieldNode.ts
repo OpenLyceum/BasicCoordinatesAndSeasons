@@ -6,13 +6,14 @@
  * number, and press Enter to commit.
  */
 
-import type { ReadOnlyProperty } from "scenerystack/axon";
+import { PatternStringProperty, type ReadOnlyProperty, StringProperty } from "scenerystack/axon";
 import { toFixed } from "scenerystack/dot";
 import type { SceneryEvent } from "scenerystack/scenery";
 import { HBox, Node, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
 import { CONTROL_FONT_SIZE } from "../../BasicCoordinatesAndSeasonsConstants.js";
+import { StringManager } from "../../i18n/StringManager.js";
 
 const FIELD_WIDTH = 52;
 const FIELD_HEIGHT = 18;
@@ -39,22 +40,21 @@ export class EditableNumberFieldNode extends HBox {
   private fieldActive = true;
   private readonly decimalPlaces: number;
   private readonly onCommit: (value: number) => void;
-  private readonly valueText: Text;
+  private readonly valueStringProperty: StringProperty;
   private readonly fieldBackground: Rectangle;
   private readonly fieldNode: Node;
 
   public constructor(options: EditableNumberFieldNodeOptions) {
     const { labelProperty, unit, decimalPlaces, onCommit } = options;
 
-    const label = new Text("", {
+    const controls = StringManager.getInstance().getControls();
+    const labelStringProperty = new PatternStringProperty(controls.fieldLabelPatternStringProperty, {
+      label: labelProperty,
+    });
+    const label = new Text(labelStringProperty, {
       font: new PhetFont(CONTROL_FONT_SIZE),
       fill: BasicCoordinatesAndSeasonsColors.textColorProperty,
     });
-    const syncLabel = (value: string): void => {
-      label.string = `${value}:`;
-    };
-    syncLabel(labelProperty.value);
-    labelProperty.link(syncLabel);
 
     const fieldBackground = new Rectangle(0, 0, FIELD_WIDTH, FIELD_HEIGHT, {
       fill: BasicCoordinatesAndSeasonsColors.controlSurfaceColorProperty,
@@ -62,7 +62,8 @@ export class EditableNumberFieldNode extends HBox {
       lineWidth: 1,
       cornerRadius: 2,
     });
-    const valueText = new Text("—", {
+    const valueStringProperty = new StringProperty(controls.unknownValueStringProperty.value);
+    const valueText = new Text(valueStringProperty, {
       font: new PhetFont(CONTROL_FONT_SIZE),
       fill: BasicCoordinatesAndSeasonsColors.controlSurfaceTextColorProperty,
     });
@@ -78,7 +79,7 @@ export class EditableNumberFieldNode extends HBox {
     valueText.centerX = fieldBackground.centerX;
     valueText.centerY = fieldBackground.centerY;
 
-    const unitText = new Text(unit, {
+    const unitText = new Text(new StringProperty(unit), {
       font: new PhetFont(CONTROL_FONT_SIZE),
       fill: BasicCoordinatesAndSeasonsColors.textColorProperty,
     });
@@ -91,7 +92,8 @@ export class EditableNumberFieldNode extends HBox {
 
     this.decimalPlaces = decimalPlaces;
     this.onCommit = onCommit;
-    this.valueText = valueText;
+    this.valueStringProperty = valueStringProperty;
+    this.disposeEmitter.addListener(() => labelStringProperty.dispose());
     this.fieldBackground = fieldBackground;
     this.fieldNode = fieldNode;
 
@@ -123,7 +125,7 @@ export class EditableNumberFieldNode extends HBox {
     if (!enabled) {
       this.editing = false;
       this.editBuffer = "";
-      this.valueText.string = "—";
+      this.showUnknownValue();
     }
   }
 
@@ -133,7 +135,7 @@ export class EditableNumberFieldNode extends HBox {
     }
     this.editing = true;
     if (this.editBuffer === "") {
-      this.valueText.string = " ";
+      this.valueStringProperty.value = " ";
     } else {
       this.updateValueText();
     }
@@ -210,15 +212,23 @@ export class EditableNumberFieldNode extends HBox {
     }
   }
 
+  private showUnknownValue(): void {
+    this.valueStringProperty.value = StringManager.getInstance().getControls().unknownValueStringProperty.value;
+  }
+
   private updateValueText(): void {
     if (!this.fieldActive) {
-      this.valueText.string = "—";
+      this.showUnknownValue();
       return;
     }
     if (this.editing) {
-      this.valueText.string = this.editBuffer === "" ? " " : this.editBuffer;
+      this.valueStringProperty.value = this.editBuffer === "" ? " " : this.editBuffer;
       return;
     }
-    this.valueText.string = this.editBuffer === "" ? "—" : this.editBuffer;
+    if (this.editBuffer === "") {
+      this.showUnknownValue();
+    } else {
+      this.valueStringProperty.value = this.editBuffer;
+    }
   }
 }

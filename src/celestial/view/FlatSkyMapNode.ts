@@ -29,7 +29,7 @@ import {
   type Property,
   type TReadOnlyProperty,
 } from "scenerystack/axon";
-import { Vector2 } from "scenerystack/dot";
+import { toFixed, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { DragListener, KeyboardListener, Node, Path, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
@@ -325,7 +325,7 @@ export class FlatSkyMapNode extends Node {
         const raM = totalMinutes % 60;
         return `α = ${raH}ʰ ${raM}ᵐ`;
       }
-      return `α = ${ra.toFixed(1)} h`;
+      return `α = ${toFixed(ra, 1)} h`;
     });
     const decLabelProperty = new DerivedProperty([decProperty, coordinateFormatProperty], (dec, fmt) => {
       if (fmt === "sexagesimal") {
@@ -335,7 +335,7 @@ export class FlatSkyMapNode extends Node {
         const decM = totalMinutes % 60;
         return `δ = ${dec >= 0 ? "+" : "-"}${decD}° ${decM}'`;
       }
-      return `δ = ${dec >= 0 ? "+" : ""}${dec.toFixed(1)}°`;
+      return `δ = ${dec >= 0 ? "+" : ""}${toFixed(dec, 1)}°`;
     });
     const indicator = new CoordinateIndicatorNode({
       width: mapWidth,
