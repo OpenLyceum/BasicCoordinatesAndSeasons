@@ -185,10 +185,10 @@ function sphereShading(centerX: number, centerY: number, radius: number): Node {
     centerY,
     radius * 1.15,
   )
-    .addColorStop(0, "rgba(255,255,255,0.55)")
-    .addColorStop(0.45, "rgba(255,255,255,0.0)")
-    .addColorStop(0.85, "rgba(0,0,0,0.12)")
-    .addColorStop(1, "rgba(0,0,0,0.4)");
+    .addColorStop(0, BasicCoordinatesAndSeasonsColors.iconSphereHighlightColorProperty)
+    .addColorStop(0.45, BasicCoordinatesAndSeasonsColors.iconSphereHighlightFadeColorProperty)
+    .addColorStop(0.85, BasicCoordinatesAndSeasonsColors.iconSphereShadeColorProperty)
+    .addColorStop(1, BasicCoordinatesAndSeasonsColors.iconSphereLimbColorProperty);
   return new Circle(radius, { fill: gradient, centerX, centerY });
 }
 

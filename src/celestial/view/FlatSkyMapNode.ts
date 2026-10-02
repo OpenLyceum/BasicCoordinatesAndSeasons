@@ -31,6 +31,7 @@ import {
 } from "scenerystack/axon";
 import { toFixed, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
+import { StringUtils } from "scenerystack/phetcommon";
 import { DragListener, KeyboardListener, Node, Path, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
@@ -42,6 +43,7 @@ import { CheckeredBorderNode } from "../../common/view/CheckeredBorderNode.js";
 import { CoordinateIndicatorNode } from "../../common/view/CoordinateIndicatorNode.js";
 import { speakValueOnFocus } from "../../common/view/speakValueOnFocus.js";
 import { createStarShape } from "../../common/view/starGraphics.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import {
   BRIGHT_STAR_COUNT,
   BRIGHT_STAR_DEC_DEG,
@@ -316,27 +318,47 @@ export class FlatSkyMapNode extends Node {
 
     // ── Coordinate indicator (α along the equator from 0ʰ, δ along the star's
     //    meridian) with numeric value pills; shared with the flat Earth map. ──
-    const raLabelProperty = new DerivedProperty([raProperty, coordinateFormatProperty], (ra, fmt) => {
-      if (fmt === "sexagesimal") {
-        // Round to whole minutes first, then carry, so 8.999ʰ reads "9ʰ 0ᵐ" (not "8ʰ 60ᵐ");
-        // wrap the hour mod 24 so a value rounding up from 23.99ʰ shows "0ʰ".
-        const totalMinutes = Math.round(ra * 60);
-        const raH = Math.floor(totalMinutes / 60) % HOURS_PER_DAY;
-        const raM = totalMinutes % 60;
-        return `α = ${raH}ʰ ${raM}ᵐ`;
-      }
-      return `α = ${toFixed(ra, 1)} h`;
-    });
-    const decLabelProperty = new DerivedProperty([decProperty, coordinateFormatProperty], (dec, fmt) => {
-      if (fmt === "sexagesimal") {
-        // Round to whole arc-minutes first, then carry, so 29.999° reads "30° 0′" (not "29° 60′").
-        const totalMinutes = Math.round(Math.abs(dec) * 60);
-        const decD = Math.floor(totalMinutes / 60);
-        const decM = totalMinutes % 60;
-        return `δ = ${dec >= 0 ? "+" : "-"}${decD}° ${decM}'`;
-      }
-      return `δ = ${dec >= 0 ? "+" : ""}${toFixed(dec, 1)}°`;
-    });
+    const controls = StringManager.getInstance().getControls();
+    const raLabelProperty = new DerivedProperty(
+      [
+        raProperty,
+        coordinateFormatProperty,
+        controls.rightAscensionSexagesimalPatternStringProperty,
+        controls.rightAscensionDecimalPatternStringProperty,
+      ],
+      (ra, fmt, sexagesimalPattern, decimalPattern) => {
+        if (fmt === "sexagesimal") {
+          // Round to whole minutes first, then carry, so 8.999ʰ reads "9ʰ 0ᵐ" (not "8ʰ 60ᵐ");
+          // wrap the hour mod 24 so a value rounding up from 23.99ʰ shows "0ʰ".
+          const totalMinutes = Math.round(ra * 60);
+          return StringUtils.fillIn(sexagesimalPattern, {
+            hours: Math.floor(totalMinutes / 60) % HOURS_PER_DAY,
+            minutes: totalMinutes % 60,
+          });
+        }
+        return StringUtils.fillIn(decimalPattern, { value: toFixed(ra, 1) });
+      },
+    );
+    const decLabelProperty = new DerivedProperty(
+      [
+        decProperty,
+        coordinateFormatProperty,
+        controls.declinationSexagesimalPatternStringProperty,
+        controls.declinationDecimalPatternStringProperty,
+      ],
+      (dec, fmt, sexagesimalPattern, decimalPattern) => {
+        if (fmt === "sexagesimal") {
+          // Round to whole arc-minutes first, then carry, so 29.999° reads "30° 0′" (not "29° 60′").
+          const totalMinutes = Math.round(Math.abs(dec) * 60);
+          return StringUtils.fillIn(sexagesimalPattern, {
+            sign: dec >= 0 ? "+" : "-",
+            degrees: Math.floor(totalMinutes / 60),
+            minutes: totalMinutes % 60,
+          });
+        }
+        return StringUtils.fillIn(decimalPattern, { value: `${dec >= 0 ? "+" : ""}${toFixed(dec, 1)}` });
+      },
+    );
     const indicator = new CoordinateIndicatorNode({
       width: mapWidth,
       height: mapHeight,

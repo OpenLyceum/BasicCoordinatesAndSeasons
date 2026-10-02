@@ -324,6 +324,34 @@ const BasicCoordinatesAndSeasonsColors = {
     default: "#5b8dd6",
     projector: "#1565c0",
   }),
+
+  // ── Screen-icon sphere shading (same in both profiles: a lighting effect) ──
+
+  /** Specular highlight at the upper left of the screen-icon spheres. */
+  iconSphereHighlightColorProperty: new ProfileColorProperty(
+    BasicCoordinatesAndSeasonsNamespace,
+    "iconSphereHighlight",
+    {
+      default: "rgba(255,255,255,0.55)",
+    },
+  ),
+
+  /** Where the highlight has faded out. */
+  iconSphereHighlightFadeColorProperty: new ProfileColorProperty(
+    BasicCoordinatesAndSeasonsNamespace,
+    "iconSphereHighlightFade",
+    { default: "rgba(255,255,255,0)" },
+  ),
+
+  /** Light shading toward the limb. */
+  iconSphereShadeColorProperty: new ProfileColorProperty(BasicCoordinatesAndSeasonsNamespace, "iconSphereShade", {
+    default: "rgba(0,0,0,0.12)",
+  }),
+
+  /** Darkest shading at the limb. */
+  iconSphereLimbColorProperty: new ProfileColorProperty(BasicCoordinatesAndSeasonsNamespace, "iconSphereLimb", {
+    default: "rgba(0,0,0,0.4)",
+  }),
 };
 
 export default BasicCoordinatesAndSeasonsColors;

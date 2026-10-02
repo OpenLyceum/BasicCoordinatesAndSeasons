@@ -9,14 +9,18 @@
  * ever more thinly. The footprint fades out during polar night (h ≤ 0).
  */
 
-import { DerivedProperty, Multilink } from "scenerystack/axon";
-import { toFixed } from "scenerystack/dot";
+import { Multilink } from "scenerystack/axon";
 import { Shape } from "scenerystack/kite";
 import { Node, Path, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
 import { CONTROL_FONT_SIZE } from "../../BasicCoordinatesAndSeasonsConstants.js";
 import { degToRad } from "../../common/SkyCoordinates.js";
+import {
+  createDegreesStringProperty,
+  createLabelValueStringProperty,
+  createLatitudeStringProperty,
+} from "../../common/view/coordinateStrings.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import type { SeasonsModel } from "../model/SeasonsModel.js";
 
@@ -75,18 +79,13 @@ export class SunbeamSpreadNode extends Node {
 
     super({ children: [ground, grid, footprint, beamCrossSection, readout] });
 
-    const altitudeStringProperty = new DerivedProperty(
-      [controls.sunAltitudeStringProperty, model.noonSunAltitudeProperty],
-      (label, altitude) => `${label}: ${toFixed(altitude, 1)}°`,
+    const altitudeStringProperty = createLabelValueStringProperty(
+      controls.sunAltitudeStringProperty,
+      createDegreesStringProperty(model.noonSunAltitudeProperty),
     );
-    const latitudeStringProperty = new DerivedProperty(
-      [
-        controls.observerLatitudeStringProperty,
-        controls.northStringProperty,
-        controls.southStringProperty,
-        model.latitudeProperty,
-      ],
-      (label, north, south, lat) => `${label}: ${toFixed(Math.abs(lat), 1)}° ${lat >= 0 ? north : south}`,
+    const latitudeStringProperty = createLabelValueStringProperty(
+      controls.observerLatitudeStringProperty,
+      createLatitudeStringProperty(model.latitudeProperty),
     );
     altitudeStringProperty.link((s) => {
       altitudeText.string = s;

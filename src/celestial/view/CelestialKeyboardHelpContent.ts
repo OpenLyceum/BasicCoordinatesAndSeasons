@@ -13,9 +13,13 @@ import {
   MoveDraggableItemsKeyboardHelpSection,
   TwoColumnKeyboardHelpContent,
 } from "scenerystack/scenery-phet";
+import { SkySphereKeyboardHelpSection } from "../../common/view/SkySphereKeyboardHelpSection.js";
 
 export class CelestialKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
-    super([new MoveDraggableItemsKeyboardHelpSection()], [new BasicActionsKeyboardHelpSection()]);
+    super(
+      [new MoveDraggableItemsKeyboardHelpSection(), new SkySphereKeyboardHelpSection()],
+      [new BasicActionsKeyboardHelpSection()],
+    );
   }
 }

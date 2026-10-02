@@ -23,6 +23,7 @@
 import { DerivedProperty, Multilink, type NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import { Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
+import { StringUtils } from "scenerystack/phetcommon";
 import { Circle, DragListener, KeyboardListener, Line, Node, Path, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
@@ -213,16 +214,30 @@ const buildLandShape = (
   return land;
 };
 
-/** The label for a meridian multiple of 45°, e.g. `0°`, `180°`, `90° W`, `45° E`. */
-const meridianLabel = (longitude: number): string => {
-  const value = mod(longitude, 360);
-  if (value === 0) {
-    return "0°";
-  }
-  if (value === 180) {
-    return "180°";
-  }
-  return value > 180 ? `${360 - value}° W` : `${value}° E`;
+/**
+ * The label for a meridian multiple of 45°, e.g. `0°`, `180°`, `90° W`, `45° E`,
+ * with the localized hemisphere letters.
+ */
+const createMeridianLabelProperty = (longitude: number): TReadOnlyProperty<string> => {
+  const controls = StringManager.getInstance().getControls();
+  return new DerivedProperty(
+    [
+      controls.degreesPatternStringProperty,
+      controls.hemisphereAnglePatternStringProperty,
+      controls.eastStringProperty,
+      controls.westStringProperty,
+    ],
+    (degreesPattern, hemispherePattern, east, west) => {
+      const value = mod(longitude, 360);
+      if (value === 0 || value === 180) {
+        return StringUtils.fillIn(degreesPattern, { value: value });
+      }
+      return StringUtils.fillIn(hemispherePattern, {
+        value: value > 180 ? 360 - value : value,
+        letter: value > 180 ? west : east,
+      });
+    },
+  );
 };
 
 /** Thickness (px) of the checkered neatline. */
@@ -329,7 +344,7 @@ export class FlatEarthMapNode extends Node {
       const node = new Node({ pickable: false });
       for (let lon = -180; lon < 180; lon += 45) {
         node.addChild(
-          new Text(meridianLabel(lon), {
+          new Text(createMeridianLabelProperty(lon), {
             font: labelFont,
             fill: BasicCoordinatesAndSeasonsColors.cardinalLabelColorProperty,
             centerX: lonToX(lon),

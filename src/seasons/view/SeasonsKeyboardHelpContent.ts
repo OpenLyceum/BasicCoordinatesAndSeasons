@@ -15,11 +15,16 @@ import {
   TimeControlsKeyboardHelpSection,
   TwoColumnKeyboardHelpContent,
 } from "scenerystack/scenery-phet";
+import { SkySphereKeyboardHelpSection } from "../../common/view/SkySphereKeyboardHelpSection.js";
 
 export class SeasonsKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
     super(
-      [new MoveDraggableItemsKeyboardHelpSection(), new SliderControlsKeyboardHelpSection()],
+      [
+        new MoveDraggableItemsKeyboardHelpSection(),
+        new SkySphereKeyboardHelpSection(),
+        new SliderControlsKeyboardHelpSection(),
+      ],
       [new TimeControlsKeyboardHelpSection(), new BasicActionsKeyboardHelpSection()],
     );
   }

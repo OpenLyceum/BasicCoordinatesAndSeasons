@@ -165,7 +165,18 @@
       "october": "octobre",
       "november": "novembre",
       "december": "décembre"
-    }
+    },
+    "labelValuePattern": "{{label}} : {{value}}",
+    "degreesPattern": "{{value}}°",
+    "hoursPattern": "{{value}} h",
+    "hemisphereAnglePattern": "{{value}}° {{letter}}",
+    "rightAscensionSexagesimalPattern": "α = {{hours}}ʰ {{minutes}}ᵐ",
+    "rightAscensionDecimalPattern": "α = {{value}} h",
+    "declinationSexagesimalPattern": "δ = {{sign}}{{degrees}}° {{minutes}}′",
+    "declinationDecimalPattern": "δ = {{value}}°",
+    "skySphereHelpHeading": "Sphère céleste",
+    "rotateSphere": "Faire pivoter la sphère",
+    "rotateSphereAboutZenith": "Faire pivoter la sphère autour du zénith"
   },
   "preferences": {
     "title": "Simulation",

@@ -119,7 +119,7 @@ Sphere scenes follow RotatingSky paint order: `backLayer` (dashed far side) → 
 
 ## Disposal
 
-`TimeModel.dispose()` and `SkyProjection.dispose()` exist. Screen-lifetime views and models do not call them today. `tests/memory-leak.test.ts` covers `TimeModel` only.
+`TimeModel.dispose()` and `SkyProjection.dispose()` exist, and `tests/memory-leak.test.ts` checks that both are garbage-collected after disposal. The three screen models and every view node are created once and live as long as the sim, so they link to one another without unlinking and have no `dispose()`. Anything created and removed at runtime would need cleanup; this sim has none.
 
 ## Testing
 

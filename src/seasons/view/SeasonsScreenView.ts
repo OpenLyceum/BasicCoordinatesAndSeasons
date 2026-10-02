@@ -14,14 +14,8 @@
  * instruction caption and in-panel readouts, matching the original.
  */
 
-import {
-  DerivedProperty,
-  Multilink,
-  PatternStringProperty,
-  type PhetioProperty,
-  type TReadOnlyProperty,
-} from "scenerystack/axon";
-import { toFixed, Vector2 } from "scenerystack/dot";
+import { Multilink, PatternStringProperty, type PhetioProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import { Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, Node, Rectangle, Text, type TPaint, VBox } from "scenerystack/scenery";
@@ -38,6 +32,11 @@ import {
 import { BasicCoordinatesAndSeasonsPanel } from "../../common/BasicCoordinatesAndSeasonsPanel.js";
 import { SkyProjection } from "../../common/SkyProjection.js";
 import { attachSkyCameraInteraction } from "../../common/view/attachSkyCameraInteraction.js";
+import {
+  createDegreesStringProperty,
+  createHoursStringProperty,
+  createLatitudeStringProperty,
+} from "../../common/view/coordinateStrings.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import type { EarthViewMode, SeasonsModel, SeasonsViewMode, SunbeamMode } from "../model/SeasonsModel.js";
 import { EarthCloseUpNode } from "./EarthCloseUpNode.js";
@@ -135,10 +134,7 @@ export class SeasonsScreenView extends ScreenView {
       date: dateProperty,
     });
     const latitudeResponseProperty = new PatternStringProperty(a11y.latitudeResponsePatternStringProperty, {
-      latitude: new DerivedProperty(
-        [controls.northStringProperty, controls.southStringProperty, model.latitudeProperty],
-        (north, south, lat) => `${toFixed(Math.abs(lat), 1)}° ${lat >= 0 ? north : south}`,
-      ),
+      latitude: createLatitudeStringProperty(model.latitudeProperty),
     });
 
     // ── Left stage: orbit view ⇄ celestial sphere ────────────────────────────
@@ -192,13 +188,10 @@ export class SeasonsScreenView extends ScreenView {
       align: "left",
       spacing: 3,
       children: [
-        makeReadout(
-          controls.sunDeclinationStringProperty,
-          new DerivedProperty([model.sunDeclinationProperty], (v) => `${toFixed(v, 1)}°`),
-        ),
+        makeReadout(controls.sunDeclinationStringProperty, createDegreesStringProperty(model.sunDeclinationProperty)),
         makeReadout(
           controls.sunRightAscensionStringProperty,
-          new DerivedProperty([model.sunRightAscensionProperty], (v) => `${toFixed(v, 1)} h`),
+          createHoursStringProperty(model.sunRightAscensionProperty),
         ),
       ],
     });
@@ -259,10 +252,7 @@ export class SeasonsScreenView extends ScreenView {
 
     const observerLatitudeReadout = makeReadout(
       controls.observerLatitudeStringProperty,
-      new DerivedProperty(
-        [controls.northStringProperty, controls.southStringProperty, model.latitudeProperty],
-        (north, south, lat) => `${toFixed(Math.abs(lat), 1)}° ${lat >= 0 ? north : south}`,
-      ),
+      createLatitudeStringProperty(model.latitudeProperty),
     );
     observerLatitudeReadout.leftBottom = new Vector2(10, EARTH_STAGE.h - 8);
 
