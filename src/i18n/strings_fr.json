@@ -168,7 +168,7 @@
     },
     "labelValuePattern": "{{label}} : {{value}}",
     "degreesPattern": "{{value}}°",
-    "hoursPattern": "{{value}} h",
+    "hoursPattern": "{{value}}ʰ",
     "hemisphereAnglePattern": "{{value}}° {{letter}}",
     "rightAscensionSexagesimalPattern": "α = {{hours}}ʰ {{minutes}}ᵐ",
     "rightAscensionDecimalPattern": "α = {{value}} h",
@@ -176,7 +176,8 @@
     "declinationDecimalPattern": "δ = {{value}}°",
     "skySphereHelpHeading": "Sphère céleste",
     "rotateSphere": "Faire pivoter la sphère",
-    "rotateSphereAboutZenith": "Faire pivoter la sphère autour du zénith"
+    "rotateSphereAboutZenith": "Faire pivoter la sphère autour du zénith",
+    "hourCircleZero": "0ʰ"
   },
   "preferences": {
     "title": "Simulation",

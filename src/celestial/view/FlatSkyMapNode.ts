@@ -25,6 +25,7 @@
 import {
   DerivedProperty,
   Multilink,
+  PatternStringProperty,
   type PhetioProperty,
   type Property,
   type TReadOnlyProperty,
@@ -161,7 +162,12 @@ export class FlatSkyMapNode extends Node {
     // ── Declination tick labels (just outside the left edge; never pan) ──
     const decTickLabels = new Node();
     for (let dec = -60; dec <= 60; dec += DEC_GRID_STEP_DEG) {
-      const label = new Text(`${dec}°`, { font: tickFont, fill: BasicCoordinatesAndSeasonsColors.textColorProperty });
+      const label = new Text(
+        new PatternStringProperty(StringManager.getInstance().getControls().degreesPatternStringProperty, {
+          value: dec,
+        }),
+        { font: tickFont, fill: BasicCoordinatesAndSeasonsColors.textColorProperty },
+      );
       label.right = -LABEL_GAP;
       label.centerY = decToY(dec);
       decTickLabels.addChild(label);
@@ -281,7 +287,12 @@ export class FlatSkyMapNode extends Node {
     const createTopLabelTile = (): Node => {
       const node = new Node();
       for (let ra = 0; ra < 24; ra += RA_GRID_STEP_HOURS) {
-        const label = new Text(`${ra}ʰ`, { font: tickFont, fill: BasicCoordinatesAndSeasonsColors.textColorProperty });
+        const label = new Text(
+          new PatternStringProperty(StringManager.getInstance().getControls().hoursPatternStringProperty, {
+            value: ra,
+          }),
+          { font: tickFont, fill: BasicCoordinatesAndSeasonsColors.textColorProperty },
+        );
         label.centerX = raToX(ra);
         label.bottom = -LABEL_GAP;
         node.addChild(label);
