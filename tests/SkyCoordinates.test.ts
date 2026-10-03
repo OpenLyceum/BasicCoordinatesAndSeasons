@@ -11,9 +11,14 @@ import { describe, expect, it } from "vitest";
 import {
   altitudeAtHourAngle,
   declinationBand,
+  degToRad,
   equatorialToHorizontal,
   equatorialToHorizonVector,
+  greatCircleDeclination,
   horizontalToEquatorial,
+  NORTH_GALACTIC_POLE_DEC_DEGREES,
+  NORTH_GALACTIC_POLE_RA_HOURS,
+  raDecToVector3,
 } from "../src/common/SkyCoordinates.js";
 
 describe("equatorialToHorizontal", () => {
@@ -126,5 +131,29 @@ describe("declinationBand", () => {
   it("flips circumpolar/never-rises in the southern hemisphere", () => {
     expect(declinationBand(-70, -40)).toBe("circumpolar");
     expect(declinationBand(70, -40)).toBe("neverRises");
+  });
+});
+
+describe("greatCircleDeclination", () => {
+  it("puts the ecliptic at 0° at the equinoxes and ±ε at the solstices", () => {
+    expect(greatCircleDeclination(0, 18, 90 - 23.4)).toBeCloseTo(0, 6);
+    expect(greatCircleDeclination(6, 18, 90 - 23.4)).toBeCloseTo(23.4, 6);
+    expect(greatCircleDeclination(18, 18, 90 - 23.4)).toBeCloseTo(-23.4, 6);
+  });
+
+  it("matches tan δ = tan ε sin α for the ecliptic at RA 3ʰ (≈17.0°, not 16.3°)", () => {
+    const expected = (Math.atan(Math.tan(degToRad(23.4)) * Math.sin(degToRad(45))) * 180) / Math.PI;
+    expect(greatCircleDeclination(3, 18, 90 - 23.4)).toBeCloseTo(expected, 6);
+  });
+
+  it("returns points perpendicular to the galactic pole", () => {
+    const pole = raDecToVector3(NORTH_GALACTIC_POLE_RA_HOURS, NORTH_GALACTIC_POLE_DEC_DEGREES);
+    for (const ra of [0, 4, 8.5, 12, 19.25]) {
+      const point = raDecToVector3(
+        ra,
+        greatCircleDeclination(ra, NORTH_GALACTIC_POLE_RA_HOURS, NORTH_GALACTIC_POLE_DEC_DEGREES),
+      );
+      expect(point.dot(pole)).toBeCloseTo(0, 9);
+    }
   });
 });

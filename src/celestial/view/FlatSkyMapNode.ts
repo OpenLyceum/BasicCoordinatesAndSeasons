@@ -37,9 +37,15 @@ import { DragListener, KeyboardListener, Node, Path, Rectangle, Text } from "sce
 import { PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
 import type { CoordinateFormat } from "../../BasicCoordinatesAndSeasonsConstants.js";
-import { CONTROL_FONT_SIZE, STAR_RADIUS } from "../../BasicCoordinatesAndSeasonsConstants.js";
+import { CONTROL_FONT_SIZE, OBLIQUITY_DEGREES, STAR_RADIUS } from "../../BasicCoordinatesAndSeasonsConstants.js";
 import BasicCoordinatesAndSeasonsHotkeyData from "../../common/BasicCoordinatesAndSeasonsHotkeyData.js";
-import { HOURS_PER_DAY, normalizeHours } from "../../common/SkyCoordinates.js";
+import {
+  greatCircleDeclination,
+  HOURS_PER_DAY,
+  NORTH_GALACTIC_POLE_DEC_DEGREES,
+  NORTH_GALACTIC_POLE_RA_HOURS,
+  normalizeHours,
+} from "../../common/SkyCoordinates.js";
 import { CheckeredBorderNode } from "../../common/view/CheckeredBorderNode.js";
 import { CoordinateIndicatorNode } from "../../common/view/CoordinateIndicatorNode.js";
 import { speakValueOnFocus } from "../../common/view/speakValueOnFocus.js";
@@ -80,28 +86,14 @@ const TOP_LABEL_OVERHANG = 20;
 const BORDER_SEGMENTS_X = 8;
 const BORDER_SEGMENTS_Y = 6;
 
-const ECLIPTIC_TILT_DEG = 23.4;
-const GALACTIC_TILT_DEG = 62.6;
-const ECLIPTIC_ASCENDING_NODE_RA = 0;
-const GALACTIC_ASCENDING_NODE_RA = 167.75 / 15;
-
-function toRad(deg: number): number {
-  return deg * (Math.PI / 180);
-}
-function toDeg(rad: number): number {
-  return rad * (180 / Math.PI);
-}
-
+// Both curves use the same poles as the celestial sphere (CelestialSphereNode),
+// so the flat map and the sphere agree. The ecliptic pole sits at RA 18ʰ.
 function eclipticDec(raHours: number): number {
-  return toDeg(
-    Math.asin(Math.sin(toRad(ECLIPTIC_TILT_DEG)) * Math.sin(toRad((raHours - ECLIPTIC_ASCENDING_NODE_RA) * 15))),
-  );
+  return greatCircleDeclination(raHours, 18, 90 - OBLIQUITY_DEGREES);
 }
 
 function galacticDec(raHours: number): number {
-  return toDeg(
-    Math.asin(Math.sin(toRad(GALACTIC_TILT_DEG)) * Math.sin(toRad((raHours - GALACTIC_ASCENDING_NODE_RA) * 15))),
-  );
+  return greatCircleDeclination(raHours, NORTH_GALACTIC_POLE_RA_HOURS, NORTH_GALACTIC_POLE_DEC_DEGREES);
 }
 
 function buildGreatCirclePath(
@@ -175,11 +167,12 @@ export class FlatSkyMapNode extends Node {
 
     const markerFont = new PhetFont(10);
     const markerColor = BasicCoordinatesAndSeasonsColors.textColorProperty;
-    const markers: Array<{ ra: number; label: string }> = [
-      { ra: 0, label: "VE" },
-      { ra: 6, label: "SS" },
-      { ra: 12, label: "AE" },
-      { ra: 18, label: "WS" },
+    const markerStrings = StringManager.getInstance().getControls();
+    const markers: Array<{ ra: number; label: TReadOnlyProperty<string> }> = [
+      { ra: 0, label: markerStrings.vernalEquinoxAbbreviationStringProperty },
+      { ra: 6, label: markerStrings.summerSolsticeAbbreviationStringProperty },
+      { ra: 12, label: markerStrings.autumnalEquinoxAbbreviationStringProperty },
+      { ra: 18, label: markerStrings.winterSolsticeAbbreviationStringProperty },
     ];
 
     // Toggleable path/node handles collected across every tile so a single
@@ -243,8 +236,11 @@ export class FlatSkyMapNode extends Node {
       const markersNode = new Node({
         children: markers.map((m) => {
           const txt = new Text(m.label, { font: markerFont, fill: markerColor });
-          txt.centerX = raToX(m.ra);
-          txt.top = decToY(eclipticDec(m.ra)) + 2;
+          // Re-anchor whenever a locale change resizes the abbreviation.
+          txt.localBoundsProperty.link(() => {
+            txt.centerX = raToX(m.ra);
+            txt.top = decToY(eclipticDec(m.ra)) + 2;
+          });
           return txt;
         }),
       });

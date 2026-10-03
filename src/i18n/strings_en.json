@@ -69,6 +69,12 @@
         "earth": "Earth on its orbit",
         "earthHelp": "Drag Earth around its orbit, or use the arrow keys, to change the date."
       }
+    },
+    "common": {
+      "cameraRotatedResponsePattern": "View turned to {{azimuth}}° around and {{elevation}}° up.",
+      "fieldAccessibleNamePattern": "{{label}}, {{value}}",
+      "fieldEditResponsePattern": "Editing {{value}}",
+      "fieldBlank": "blank"
     }
   },
   "controls": {
@@ -184,5 +190,27 @@
     "earthMapResolution": "Earth Map Detail",
     "earthMapResolutionLow": "Low (NAAP outline)",
     "earthMapResolutionHigh": "High (Natural Earth)"
+  },
+  "cities": {
+    "buenosAires": "Buenos Aires, Argentina",
+    "lima": "Lima, Peru",
+    "casablanca": "Casablanca, Morocco",
+    "monrovia": "Monrovia, Liberia",
+    "saoPaulo": "São Paulo, Brazil",
+    "lincoln": "Lincoln",
+    "baghdad": "Baghdad, Iraq",
+    "greenwich": "Greenwich, England",
+    "singapore": "Singapore",
+    "havana": "Havana, Cuba",
+    "canberra": "Canberra, Australia",
+    "calcutta": "Calcutta, India",
+    "beijing": "Beijing, China",
+    "reykjavik": "Reykjavik, Iceland",
+    "murmansk": "Murmansk, Russia",
+    "washingtonDC": "Washington DC",
+    "barrow": "Barrow, Alaska",
+    "moscow": "Moscow, Russia",
+    "capeTown": "Cape Town, South Africa",
+    "mcMurdo": "McMurdo Station"
   }
 }

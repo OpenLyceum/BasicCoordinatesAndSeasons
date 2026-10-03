@@ -65,7 +65,11 @@ const gateBoth = (node: Node, a: TReadOnlyProperty<boolean>, b: TReadOnlyPropert
 };
 
 /** A named point (city) on the globe, in decimal degrees (+N, +E). */
-export type GlobeGeoPoint = { readonly name: string; readonly latitude: number; readonly longitude: number };
+export type GlobeGeoPoint = {
+  readonly name: TReadOnlyProperty<string>;
+  readonly latitude: number;
+  readonly longitude: number;
+};
 
 /** A date-line-style vertex on the globe, in decimal degrees (+N, +E). */
 export type GlobeGeoVertex = { readonly latitude: number; readonly longitude: number };

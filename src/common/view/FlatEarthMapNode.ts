@@ -478,12 +478,16 @@ export class FlatEarthMapNode extends Node {
     });
     Multilink.multilink([latitudeProperty, longitudeProperty], updateCursor);
 
-    earthMapResolutionProperty.link((resolution) => {
+    // The resolution Property belongs to Preferences and outlives this node, so
+    // unlink on dispose or it would keep every disposed map (and its land paths) alive.
+    const updateLandShape = (resolution: EarthMapResolution): void => {
       const shape = buildLandShape(resolution, lonToX, latToY, width, height);
       for (const landPath of landPaths) {
         landPath.shape = shape;
       }
-    });
+    };
+    earthMapResolutionProperty.link(updateLandShape);
+    this.disposeEmitter.addListener(() => earthMapResolutionProperty.unlink(updateLandShape));
 
     // Cursor drag → observer lat/long. Converts the pointer's viewport position back
     // through the current pan, wrapping longitude into [−180, 180).

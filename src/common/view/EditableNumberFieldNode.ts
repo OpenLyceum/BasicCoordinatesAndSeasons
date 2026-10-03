@@ -8,6 +8,7 @@
 
 import { PatternStringProperty, type ReadOnlyProperty, StringProperty } from "scenerystack/axon";
 import { toFixed } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import type { SceneryEvent } from "scenerystack/scenery";
 import { HBox, Node, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
@@ -67,13 +68,19 @@ export class EditableNumberFieldNode extends HBox {
       font: new PhetFont(CONTROL_FONT_SIZE),
       fill: BasicCoordinatesAndSeasonsColors.controlSurfaceTextColorProperty,
     });
+    // The accessible name carries the current value too ("Right ascension, 8.0"), so a
+    // screen-reader user hears what the field holds when it receives focus.
+    const a11y = StringManager.getInstance().getCommonA11yStrings();
+    const accessibleNameProperty = new PatternStringProperty(a11y.fieldAccessibleNamePatternStringProperty, {
+      label: labelProperty,
+      value: valueStringProperty,
+    });
     const fieldNode = new Node({
       children: [fieldBackground, valueText],
-      // A named, focusable PDOM entry so screen-reader users can find and edit
-      // the field. accessibleName follows the (reactive) label text.
+      // A named, focusable PDOM entry so screen-reader users can find and edit the field.
       tagName: "div",
       focusable: true,
-      accessibleName: labelProperty,
+      accessibleName: accessibleNameProperty,
       cursor: "text",
     });
     valueText.centerX = fieldBackground.centerX;
@@ -93,7 +100,10 @@ export class EditableNumberFieldNode extends HBox {
     this.decimalPlaces = decimalPlaces;
     this.onCommit = onCommit;
     this.valueStringProperty = valueStringProperty;
-    this.disposeEmitter.addListener(() => labelStringProperty.dispose());
+    this.disposeEmitter.addListener(() => {
+      labelStringProperty.dispose();
+      accessibleNameProperty.dispose();
+    });
     this.fieldBackground = fieldBackground;
     this.fieldNode = fieldNode;
 
@@ -223,6 +233,13 @@ export class EditableNumberFieldNode extends HBox {
     }
     if (this.editing) {
       this.valueStringProperty.value = this.editBuffer === "" ? " " : this.editBuffer;
+      // Echo the in-progress buffer, since the visual Text alone is silent to screen readers.
+      const a11y = StringManager.getInstance().getCommonA11yStrings();
+      this.fieldNode.addAccessibleResponse(
+        StringUtils.fillIn(a11y.fieldEditResponsePatternStringProperty.value, {
+          value: this.editBuffer === "" ? a11y.fieldBlankStringProperty.value : this.editBuffer,
+        }),
+      );
       return;
     }
     if (this.editBuffer === "") {

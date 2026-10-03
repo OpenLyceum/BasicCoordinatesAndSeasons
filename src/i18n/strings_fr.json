@@ -69,6 +69,12 @@
         "earth": "La Terre sur son orbite",
         "earthHelp": "Déplacez la Terre sur son orbite, ou utilisez les touches fléchées, pour changer la date."
       }
+    },
+    "common": {
+      "cameraRotatedResponsePattern": "Vue tournée à {{azimuth}}° autour et {{elevation}}° vers le haut.",
+      "fieldAccessibleNamePattern": "{{label}}, {{value}}",
+      "fieldEditResponsePattern": "Saisie : {{value}}",
+      "fieldBlank": "vide"
     }
   },
   "controls": {
@@ -184,5 +190,27 @@
     "earthMapResolution": "Détail de la carte terrestre",
     "earthMapResolutionLow": "Faible (contour NAAP)",
     "earthMapResolutionHigh": "Élevé (Natural Earth)"
+  },
+  "cities": {
+    "buenosAires": "Buenos Aires, Argentine",
+    "lima": "Lima, Pérou",
+    "casablanca": "Casablanca, Maroc",
+    "monrovia": "Monrovia, Liberia",
+    "saoPaulo": "São Paulo, Brésil",
+    "lincoln": "Lincoln",
+    "baghdad": "Bagdad, Irak",
+    "greenwich": "Greenwich, Angleterre",
+    "singapore": "Singapour",
+    "havana": "La Havane, Cuba",
+    "canberra": "Canberra, Australie",
+    "calcutta": "Calcutta, Inde",
+    "beijing": "Pékin, Chine",
+    "reykjavik": "Reykjavik, Islande",
+    "murmansk": "Mourmansk, Russie",
+    "washingtonDC": "Washington D.C.",
+    "barrow": "Barrow, Alaska",
+    "moscow": "Moscou, Russie",
+    "capeTown": "Le Cap, Afrique du Sud",
+    "mcMurdo": "Station McMurdo"
   }
 }

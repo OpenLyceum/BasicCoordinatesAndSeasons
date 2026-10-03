@@ -146,10 +146,10 @@ export class SeasonsScreenView extends ScreenView {
       accessibleHelpText: a11y.controls.earthHelpStringProperty,
       accessibleObjectResponseProperty: dateResponseProperty,
       seasonLabels: {
-        marchEquinox: controls.marchEquinoxStringProperty.value,
-        juneSolstice: controls.juneSolsticeStringProperty.value,
-        septemberEquinox: controls.septemberEquinoxStringProperty.value,
-        decemberSolstice: controls.decemberSolsticeStringProperty.value,
+        marchEquinox: controls.marchEquinoxStringProperty,
+        juneSolstice: controls.juneSolsticeStringProperty,
+        septemberEquinox: controls.septemberEquinoxStringProperty,
+        decemberSolstice: controls.decemberSolsticeStringProperty,
       },
     });
     orbitView.center = new Vector2(LEFT_STAGE.w / 2, LEFT_STAGE.h / 2 - 5);
@@ -326,7 +326,7 @@ export class SeasonsScreenView extends ScreenView {
       flowBoxSpacing: 14,
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
-          listener: () => model.step(1 / 60),
+          listener: () => model.stepForward(1 / 60),
         },
       },
       speedRadioButtonGroupOptions: {

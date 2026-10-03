@@ -33,7 +33,12 @@ export type OrbitViewNodeOptions = {
   /** Live date response spoken when a keyboard user nudges Earth around its orbit. */
   accessibleObjectResponseProperty?: TReadOnlyProperty<string>;
   /** Localized season labels at λ☉ = 0/90/180/270 (equinox/solstice points). */
-  seasonLabels: { marchEquinox: string; juneSolstice: string; septemberEquinox: string; decemberSolstice: string };
+  seasonLabels: {
+    marchEquinox: TReadOnlyProperty<string>;
+    juneSolstice: TReadOnlyProperty<string>;
+    septemberEquinox: TReadOnlyProperty<string>;
+    decemberSolstice: TReadOnlyProperty<string>;
+  };
 };
 
 const EARTH_RADIUS = 12;
@@ -76,10 +81,13 @@ export class OrbitViewNode extends Node {
 
     // Season labels just outside the orbit at the four cardinal ecliptic longitudes.
     const labelFont = new PhetFont(CONTROL_FONT_SIZE - 1);
-    const makeLabel = (text: string, lambdaDeg: number): Text => {
+    const makeLabel = (text: TReadOnlyProperty<string>, lambdaDeg: number): Text => {
       const label = new Text(text, { font: labelFont, fill: BasicCoordinatesAndSeasonsColors.textColorProperty });
-      const p = earthPosition(lambdaDeg);
-      label.center = p.timesScalar(1.32);
+      const center = earthPosition(lambdaDeg).timesScalar(1.32);
+      // Re-centre whenever a locale change resizes the text.
+      label.localBoundsProperty.link(() => {
+        label.center = center;
+      });
       return label;
     };
     const labels = new Node({
@@ -177,8 +185,9 @@ export class OrbitViewNode extends Node {
 
     const setLongitudeFromPoint = (globalPoint: Vector2): void => {
       const local = this.globalToLocalPoint(globalPoint);
-      // Screen angle φ (with +y up): atan2(−y, x); Earth angle = λ + 180.
-      const phiDeg = normalizeDegrees((Math.atan2(-local.y, local.x) * 180) / Math.PI);
+      // Screen angle φ (with +y up): undo the foreshortening first, since Earth sits
+      // at (R cosφ, −R k sinφ); then φ = atan2(−y / k, x) and Earth angle = λ + 180.
+      const phiDeg = normalizeDegrees((Math.atan2(-local.y / k, local.x) * 180) / Math.PI);
       model.sunEclipticLongitudeProperty.value = normalizeDegrees(phiDeg - 180);
     };
 

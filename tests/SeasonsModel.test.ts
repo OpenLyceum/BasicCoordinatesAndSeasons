@@ -49,6 +49,15 @@ describe("SeasonsModel stepping", () => {
     expect(model.sunEclipticLongitudeProperty.value).toBe(DEFAULT_ECLIPTIC_LONGITUDE);
   });
 
+  it("advances one frame on Step Forward while paused", () => {
+    const model = new SeasonsModel();
+    model.timer.isPlayingProperty.value = false;
+    model.sunEclipticLongitudeProperty.value = 0;
+    model.stepForward(1);
+    expect(model.sunEclipticLongitudeProperty.value).toBeGreaterThan(4);
+    expect(model.sunEclipticLongitudeProperty.value).toBeLessThan(6);
+  });
+
   it("advances the ecliptic longitude while playing", () => {
     const model = new SeasonsModel();
     model.sunEclipticLongitudeProperty.value = 0;

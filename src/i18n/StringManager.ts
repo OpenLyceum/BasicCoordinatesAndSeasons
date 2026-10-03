@@ -21,6 +21,7 @@
 
 import type { ReadOnlyProperty } from "scenerystack/axon";
 import { LocalizedString } from "scenerystack/chipper";
+import type { CityKey } from "../terrestrial/model/CityData.js";
 import stringsEn from "./strings_en.json";
 import stringsEs from "./strings_es.json";
 import stringsFr from "./strings_fr.json";
@@ -101,6 +102,11 @@ export class StringManager {
    * Add `accessibleName` / `accessibleHelpText` strings for individual controls
    * to the `a11y` group too, then read them through this same nested tree.
    */
+  /** Accessibility strings shared by every screen (e.g. the sky-camera response). */
+  public getCommonA11yStrings() {
+    return stringProperties.a11y.common;
+  }
+
   public getTerrestrialA11yStrings() {
     return stringProperties.a11y.terrestrial;
   }
@@ -127,5 +133,10 @@ export class StringManager {
    */
   public getPreferences() {
     return stringProperties.preferences;
+  }
+
+  /** Localized reference-city labels for the Terrestrial maps, keyed by {@link CityKey}. */
+  public getCityNameProperty(key: CityKey): ReadOnlyProperty<string> {
+    return stringProperties.cities[`${key}StringProperty`];
   }
 }

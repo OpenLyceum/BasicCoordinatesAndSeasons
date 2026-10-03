@@ -226,29 +226,32 @@ const createCities = (context: FlatMapWorldContext, showCitiesProperty: TReadOnl
       centerX: dotX,
       centerY: dotY,
     });
-    const label = new Text(city.name, {
+    const label = new Text(StringManager.getInstance().getCityNameProperty(city.key), {
       font: CITY_LABEL_FONT,
       fill: BasicCoordinatesAndSeasonsColors.cityLabelColorProperty,
     });
     const gap = CITY_DOT_RADIUS + 2;
-    switch (city.side) {
-      case "left":
-        label.right = dotX - gap;
-        label.centerY = dotY;
-        break;
-      case "top":
-        label.centerX = dotX;
-        label.bottom = dotY - gap;
-        break;
-      case "bottom":
-        label.centerX = dotX;
-        label.top = dotY + gap;
-        break;
-      default:
-        label.left = dotX + gap;
-        label.centerY = dotY;
-        break;
-    }
+    // Re-anchor beside the dot whenever a locale change resizes the label.
+    label.localBoundsProperty.link(() => {
+      switch (city.side) {
+        case "left":
+          label.right = dotX - gap;
+          label.centerY = dotY;
+          break;
+        case "top":
+          label.centerX = dotX;
+          label.bottom = dotY - gap;
+          break;
+        case "bottom":
+          label.centerX = dotX;
+          label.top = dotY + gap;
+          break;
+        default:
+          label.left = dotX + gap;
+          label.centerY = dotY;
+          break;
+      }
+    });
     cities.addChild(new Node({ children: [dot, label] }));
   }
 

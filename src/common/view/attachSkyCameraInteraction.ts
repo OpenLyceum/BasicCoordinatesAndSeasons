@@ -11,9 +11,12 @@
  */
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
-import type { Vector2 } from "scenerystack/dot";
+import { toFixed, type Vector2 } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import { DragListener, KeyboardListener, type Node } from "scenerystack/scenery";
+import { StringManager } from "../../i18n/StringManager.js";
 import BasicCoordinatesAndSeasonsHotkeyData from "../BasicCoordinatesAndSeasonsHotkeyData.js";
+import { normalizeDegrees, radToDeg } from "../SkyCoordinates.js";
 import type { SkyProjection } from "../SkyProjection.js";
 
 /** Radians of camera rotation per pixel of pointer movement. */
@@ -46,6 +49,19 @@ export const attachSkyCameraInteraction = <T extends Node>(
   if (accessibleHelpTextProperty) {
     target.accessibleHelpText = accessibleHelpTextProperty;
   }
+
+  // Speak the new camera orientation after each keyboard rotation, so a screen-reader
+  // user learns where the view now points rather than only that a key was pressed.
+  const rotatedPatternProperty =
+    StringManager.getInstance().getCommonA11yStrings().cameraRotatedResponsePatternStringProperty;
+  const announceOrientation = (): void => {
+    target.addAccessibleResponse(
+      StringUtils.fillIn(rotatedPatternProperty.value, {
+        azimuth: toFixed(normalizeDegrees(radToDeg(projection.azimuthProperty.value)), 0),
+        elevation: toFixed(radToDeg(projection.elevationProperty.value), 0),
+      }),
+    );
+  };
 
   let lastPoint: Vector2 | null = null;
   let dragMode: "simple" | "zenith" = "simple";
@@ -97,6 +113,7 @@ export const attachSkyCameraInteraction = <T extends Node>(
         ) {
           const sign = keysPressed === "alt+arrowLeft" || keysPressed === "alt+arrowDown" ? -1 : 1;
           projection.rotateAboutZenith(sign * KEYBOARD_ROTATE_STEP);
+          announceOrientation();
           return;
         }
 
@@ -110,6 +127,7 @@ export const attachSkyCameraInteraction = <T extends Node>(
         } else if (keysPressed === "arrowDown") {
           projection.rotateBy(0, -KEYBOARD_ROTATE_STEP);
         }
+        announceOrientation();
       },
     }),
   );

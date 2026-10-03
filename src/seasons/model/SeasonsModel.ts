@@ -131,10 +131,20 @@ export class SeasonsModel implements TModel {
   public step(dt: number): void {
     this.timer.step(dt);
     if (this.timer.isPlayingProperty.value) {
-      const delta = (360 / DAYS_PER_YEAR) * SEASONS_ANIMATION_DAYS_PER_SECOND * this.timer.timeSpeedMultiplier * dt;
-      const next = (this.sunEclipticLongitudeProperty.value + delta) % 360;
-      this.sunEclipticLongitudeProperty.value = next < 0 ? next + 360 : next;
+      this.advanceSeason(dt);
     }
+  }
+
+  /** Advance one frame while paused — what the step-forward button needs. */
+  public stepForward(dt: number): void {
+    this.advanceSeason(dt);
+  }
+
+  /** Move the Sun along the ecliptic by dt seconds of animation at the current speed. */
+  private advanceSeason(dt: number): void {
+    const delta = (360 / DAYS_PER_YEAR) * SEASONS_ANIMATION_DAYS_PER_SECOND * this.timer.timeSpeedMultiplier * dt;
+    const next = (this.sunEclipticLongitudeProperty.value + delta) % 360;
+    this.sunEclipticLongitudeProperty.value = next < 0 ? next + 360 : next;
   }
 
   public reset(): void {

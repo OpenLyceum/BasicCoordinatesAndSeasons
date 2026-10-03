@@ -69,6 +69,12 @@
         "earth": "La Tierra en su órbita",
         "earthHelp": "Arrastra la Tierra por su órbita, o usa las teclas de flecha, para cambiar la fecha."
       }
+    },
+    "common": {
+      "cameraRotatedResponsePattern": "Vista girada a {{azimuth}}° alrededor y {{elevation}}° hacia arriba.",
+      "fieldAccessibleNamePattern": "{{label}}, {{value}}",
+      "fieldEditResponsePattern": "Editando {{value}}",
+      "fieldBlank": "vacío"
     }
   },
   "controls": {
@@ -184,5 +190,27 @@
     "earthMapResolution": "Detalle del mapa terrestre",
     "earthMapResolutionLow": "Bajo (contorno NAAP)",
     "earthMapResolutionHigh": "Alto (Natural Earth)"
+  },
+  "cities": {
+    "buenosAires": "Buenos Aires, Argentina",
+    "lima": "Lima, Perú",
+    "casablanca": "Casablanca, Marruecos",
+    "monrovia": "Monrovia, Liberia",
+    "saoPaulo": "São Paulo, Brasil",
+    "lincoln": "Lincoln",
+    "baghdad": "Bagdad, Irak",
+    "greenwich": "Greenwich, Inglaterra",
+    "singapore": "Singapur",
+    "havana": "La Habana, Cuba",
+    "canberra": "Canberra, Australia",
+    "calcutta": "Calcuta, India",
+    "beijing": "Pekín, China",
+    "reykjavik": "Reikiavik, Islandia",
+    "murmansk": "Múrmansk, Rusia",
+    "washingtonDC": "Washington D. C.",
+    "barrow": "Barrow, Alaska",
+    "moscow": "Moscú, Rusia",
+    "capeTown": "Ciudad del Cabo, Sudáfrica",
+    "mcMurdo": "Estación McMurdo"
   }
 }

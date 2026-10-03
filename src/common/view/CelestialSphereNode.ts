@@ -19,7 +19,7 @@ import { PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
 import { OBLIQUITY_DEGREES } from "../../BasicCoordinatesAndSeasonsConstants.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import { raDecToVector3 } from "../SkyCoordinates.js";
+import { NORTH_GALACTIC_POLE_DEC_DEGREES, NORTH_GALACTIC_POLE_RA_HOURS, raDecToVector3 } from "../SkyCoordinates.js";
 import type { SkyProjection } from "../SkyProjection.js";
 import { addSplitSmoothPolyline, projectSplitSmoothPolyline, smallCirclePoints } from "./skyGraphics.js";
 
@@ -56,7 +56,7 @@ const RA_ZERO = new Vector3(1, 0, 0); // RA 0ʰ on the equator, where the "0h" l
 const DEC_CIRCLES = [-60, -30, 30, 60]; // degrees (0 is the equator, drawn separately)
 const RA_MERIDIANS = [0, 3, 6, 9, 12, 15, 18, 21]; // hours
 const ECLIPTIC_POLE = raDecToVector3(18, 90 - OBLIQUITY_DEGREES); // 23.44° from the NCP
-const GALACTIC_POLE = raDecToVector3(12.8567, 27.13); // North Galactic Pole (J2000)
+const GALACTIC_POLE = raDecToVector3(NORTH_GALACTIC_POLE_RA_HOURS, NORTH_GALACTIC_POLE_DEC_DEGREES);
 const DASH = [5, 4];
 const POLE_DOT_RADIUS = 4;
 const LABEL_OFFSET = 14;

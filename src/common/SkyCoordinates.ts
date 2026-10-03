@@ -174,3 +174,18 @@ export const declinationBand = (decDeg: number, latitudeDeg: number): Declinatio
   }
   return "risesAndSets";
 };
+
+/** North Galactic Pole (J2000): RA in hours, Dec in degrees. */
+export const NORTH_GALACTIC_POLE_RA_HOURS = 12.8567;
+export const NORTH_GALACTIC_POLE_DEC_DEGREES = 27.13;
+
+/**
+ * Declination (degrees) at which a great circle crosses a given right ascension,
+ * for a great circle defined by its north pole. Every point p on the circle has
+ * p · pole = 0, which gives tan δ = −cos δₚ cos(α − αₚ) / sin δₚ.
+ */
+export const greatCircleDeclination = (raHours: number, poleRaHours: number, poleDecDegrees: number): number => {
+  const poleDec = poleDecDegrees * DEG_TO_RAD;
+  const deltaRa = (raHours - poleRaHours) * (Math.PI / 12);
+  return Math.atan2(-Math.cos(poleDec) * Math.cos(deltaRa), Math.sin(poleDec)) / DEG_TO_RAD;
+};

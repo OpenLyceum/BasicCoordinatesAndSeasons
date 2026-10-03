@@ -101,6 +101,8 @@ export class TerrestrialScreenView extends ScreenView {
   private panAnimation: Animation | null = null;
   private globeRotateAnimation: Animation | null = null;
   private readonly projection: SkyProjection;
+  /** Bumped by Reset All so a geolocation response requested before it is ignored. */
+  private geolocationGeneration = 0;
 
   public constructor(model: TerrestrialModel, providedOptions: TerrestrialScreenViewOptions) {
     const options = optionize<TerrestrialScreenViewOptions, TerrestrialScreenViewSelfOptions, ScreenViewOptions>()(
@@ -249,7 +251,11 @@ export class TerrestrialScreenView extends ScreenView {
         // latitude/longitude, so dragging slides the marker freely across the globe.
         observerAnchored: false,
         overlays: {
-          cities: CITIES,
+          cities: CITIES.map((city) => ({
+            name: StringManager.getInstance().getCityNameProperty(city.key),
+            latitude: city.latitude,
+            longitude: city.longitude,
+          })),
           dateLine: DATE_LINE,
           referenceCircleLatitudes: [OBLIQUITY_DEGREES, -OBLIQUITY_DEGREES, polarCircleLatitude, -polarCircleLatitude],
           showCitiesProperty: model.showCitiesProperty,
@@ -380,11 +386,15 @@ export class TerrestrialScreenView extends ScreenView {
           return;
         }
         useMyLocationButton.enabled = false;
+        // Reset All bumps the generation, so a response that arrives after a reset is dropped.
+        const requestGeneration = this.geolocationGeneration;
         try {
           navigator.geolocation.getCurrentPosition(
             (position) => {
-              model.latitudeProperty.value = position.coords.latitude;
-              model.longitudeProperty.value = position.coords.longitude;
+              if (requestGeneration === this.geolocationGeneration) {
+                model.latitudeProperty.value = position.coords.latitude;
+                model.longitudeProperty.value = position.coords.longitude;
+              }
               useMyLocationButton.enabled = true;
             },
             () => {
@@ -510,6 +520,7 @@ export class TerrestrialScreenView extends ScreenView {
     const resetAllButton = new ResetAllButton({
       ...FLAT_RESET_ALL_BUTTON_OPTIONS,
       listener: () => {
+        this.geolocationGeneration++;
         this.reset();
         model.reset();
       },
