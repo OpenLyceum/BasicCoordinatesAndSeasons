@@ -32,11 +32,11 @@
 
 import { Vector3 } from "scenerystack/dot";
 
-export type EquatorialCoordinates = { raHours: number; decDeg: number };
-export type HorizontalCoordinates = { altDeg: number; azDeg: number };
+type EquatorialCoordinates = { raHours: number; decDeg: number };
+type HorizontalCoordinates = { altDeg: number; azDeg: number };
 
 /** Where a star of a given declination spends its day at a given latitude. */
-export type DeclinationBand = "circumpolar" | "risesAndSets" | "neverRises";
+type DeclinationBand = "circumpolar" | "risesAndSets" | "neverRises";
 
 export const HOURS_PER_DAY = 24;
 const DEG_TO_RAD = Math.PI / 180;
@@ -71,6 +71,7 @@ export const raDecToVector3 = (raHours: number, decDeg: number): Vector3 => {
 /**
  * Equatorial → horizontal for an observer at `latitudeDeg` and local sidereal
  * time `lstHours`. Standard astronomy transform.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const equatorialToHorizontal = (
   raHours: number,
@@ -98,6 +99,7 @@ export const equatorialToHorizontal = (
  * Equatorial → horizon as a unit vector (+X north, +Y east, +Z zenith). Uses the
  * same astronomy as {@link equatorialToHorizontal} but skips alt/az, so paths
  * through the zenith or nadir stay smooth at the poles.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const equatorialToHorizonVector = (
   raHours: number,
@@ -119,6 +121,7 @@ export const equatorialToHorizonVector = (
 /**
  * Horizontal → equatorial — the inverse of {@link equatorialToHorizontal}. Used
  * when the user shift-clicks a point on the horizon dome to create a star there.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const horizontalToEquatorial = (
   altDeg: number,
@@ -141,7 +144,10 @@ export const horizontalToEquatorial = (
   return { raHours: normalizeHours(lstHours - haHours), decDeg: radToDeg(dec) };
 };
 
-/** Altitude (degrees) of a star at the given hour angle — used for culmination. */
+/**
+ * Altitude (degrees) of a star at the given hour angle — used for culmination.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export const altitudeAtHourAngle = (decDeg: number, latitudeDeg: number, hourAngleHours: number): number => {
   const dec = degToRad(decDeg);
   const lat = degToRad(latitudeDeg);
@@ -154,6 +160,7 @@ export const altitudeAtHourAngle = (decDeg: number, latitudeDeg: number, hourAng
  * Classifies a declination at a latitude as circumpolar (never sets), never
  * rising, or rising-and-setting, by comparing the altitudes at upper (H = 0) and
  * lower (H = 12h) culmination against the horizon.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const declinationBand = (decDeg: number, latitudeDeg: number): DeclinationBand => {
   const maxAlt = altitudeAtHourAngle(decDeg, latitudeDeg, 0);

@@ -21,6 +21,7 @@ import { degToRad, normalizeDegrees, normalizeHours, radiansToHours, radToDeg } 
 /**
  * Day-of-year (non-leap, 1-based) of the March (vernal) equinox, where the Sun's
  * ecliptic longitude λ☉ = 0. ≈ March 20.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const MARCH_EQUINOX_DAY = 79.25;
 

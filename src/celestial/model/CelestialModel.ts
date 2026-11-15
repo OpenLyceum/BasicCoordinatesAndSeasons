@@ -14,8 +14,12 @@ import { Range } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
 import type { CoordinateFormat } from "../../BasicCoordinatesAndSeasonsConstants.js";
 
-/** Default star position (compromise between the two NAAP celestial explorers). */
+/**
+ * Default star position (compromise between the two NAAP celestial explorers).
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export const DEFAULT_STAR_RA_HOURS = 8;
+/** @internal Exported for unit tests; not part of the application API. */
 export const DEFAULT_STAR_DEC_DEGREES = 30;
 
 const STAR_RA_RANGE = new Range(0, 24);
