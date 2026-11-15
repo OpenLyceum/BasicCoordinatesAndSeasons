@@ -28,7 +28,7 @@ src/common/                              shared sky engine + sim-wide helpers
   ├─ SkyProjection.ts                    orthographic 3D→2D projector; dispose()
   ├─ TimeModel.ts                        composable play/pause + elapsed time; dispose()
   ├─ formatAngles.ts                     DMS / decimal formatting
-  ├─ view/skyGraphics.ts, starGraphics.ts, skyViewLayout.ts
+  ├─ view/skyGraphics.ts, starGraphics.ts
   ├─ view/CelestialSphereNode.ts, CoordinateGuideNode.ts, EarthGlobeNode.ts, FlatEarthMapNode.ts
   ├─ view/EditableNumberFieldNode.ts, SkyReadoutNode.ts, attachSkyCameraInteraction.ts
   ├─ model/EarthShoreData*.ts            NAAP (low) + Natural Earth (high) coastlines

@@ -33,7 +33,7 @@ import {
 } from "../../common/SunPosition.js";
 import { TimeModel } from "../../common/TimeModel.js";
 
-export const ECLIPTIC_LONGITUDE_RANGE = new Range(0, 360);
+const ECLIPTIC_LONGITUDE_RANGE = new Range(0, 360);
 
 /**
  * Initial Sun position, matching the NAAP "Seasons and Ecliptic Simulator" reset
@@ -44,15 +44,15 @@ export const ECLIPTIC_LONGITUDE_RANGE = new Range(0, 360);
 const DEFAULT_SUN_ECLIPTIC_LONGITUDE = eclipticLongitudeForDayOfYear(41);
 
 /** Which visualization fills the large left-hand view panel. */
-export const SEASONS_VIEW_MODES = ["orbit", "sphere"] as const;
+const SEASONS_VIEW_MODES = ["orbit", "sphere"] as const;
 export type SeasonsViewMode = (typeof SEASONS_VIEW_MODES)[number];
 
 /** How the Earth close-up is framed: side-on, or looking down the Sun–Earth line. */
-export const EARTH_VIEW_MODES = ["side", "sun"] as const;
+const EARTH_VIEW_MODES = ["side", "sun"] as const;
 export type EarthViewMode = (typeof EARTH_VIEW_MODES)[number];
 
 /** Which sunbeam panel is shown: the side-on ray angle, or the top-down footprint spread. */
-export const SUNBEAM_MODES = ["angle", "spread"] as const;
+const SUNBEAM_MODES = ["angle", "spread"] as const;
 export type SunbeamMode = (typeof SUNBEAM_MODES)[number];
 
 export class SeasonsModel implements TModel {

@@ -21,13 +21,13 @@
  *
  * ── Wired vs. reserved ────────────────────────────────────────────────────────
  *  This lab is purely equatorial (RA/Dec): only {@link raDecToVector3} feeds the
- *  screen views. The alt-az / horizon transforms below — `hourAngle`,
- *  `altAzToVector3`, `equatorialToHorizontal`, `equatorialToHorizonVector`,
- *  `horizontalToEquatorial`, `altitudeAtHourAngle`, `declinationBand` — are RESERVED:
- *  correct and unit-tested, but not yet used by any screen (NAAP's Basic Coordinates
- *  lab has no horizon view; that is the sibling Rotating Sky / motion2 lab). They are
- *  kept as a ready reference API should a horizon/alt-az view be added. Azimuth
- *  convention: measured from North (0°) increasing through East, matching NAAP.
+ *  screen views. The alt-az / horizon transforms below — `equatorialToHorizontal`,
+ *  `equatorialToHorizonVector`, `horizontalToEquatorial`, `altitudeAtHourAngle`,
+ *  `declinationBand` — are RESERVED: correct and unit-tested, but not yet used by
+ *  any screen (NAAP's Basic Coordinates lab has no horizon view; that is the sibling
+ *  Rotating Sky / motion2 lab). They are kept as a ready reference API should a
+ *  horizon/alt-az view be added. Azimuth convention: measured from North (0°)
+ *  increasing through East, matching NAAP.
  */
 
 import { Vector3 } from "scenerystack/dot";
@@ -45,7 +45,7 @@ const HOURS_TO_RAD = (2 * Math.PI) / HOURS_PER_DAY;
 
 export const degToRad = (deg: number): number => deg * DEG_TO_RAD;
 export const radToDeg = (rad: number): number => rad * RAD_TO_DEG;
-export const hoursToRadians = (hours: number): number => hours * HOURS_TO_RAD;
+const hoursToRadians = (hours: number): number => hours * HOURS_TO_RAD;
 export const radiansToHours = (rad: number): number => rad / HOURS_TO_RAD;
 
 /** Wraps an hour value into [0, 24). */
@@ -55,7 +55,7 @@ export const normalizeHours = (hours: number): number => ((hours % HOURS_PER_DAY
 export const normalizeDegrees = (deg: number): number => ((deg % 360) + 360) % 360;
 
 /** Hour angle H = LST − RA, wrapped into [−12, 12) hours. */
-export const hourAngle = (raHours: number, lstHours: number): number => {
+const hourAngle = (raHours: number, lstHours: number): number => {
   const h = normalizeHours(lstHours - raHours);
   return h >= HOURS_PER_DAY / 2 ? h - HOURS_PER_DAY : h;
 };
@@ -66,14 +66,6 @@ export const raDecToVector3 = (raHours: number, decDeg: number): Vector3 => {
   const dec = degToRad(decDeg);
   const cosDec = Math.cos(dec);
   return new Vector3(cosDec * Math.cos(ra), cosDec * Math.sin(ra), Math.sin(dec));
-};
-
-/** Horizontal (Alt, Az) → unit vector in the horizon frame (+X = N, +Y = E, +Z = up). */
-export const altAzToVector3 = (altDeg: number, azDeg: number): Vector3 => {
-  const alt = degToRad(altDeg);
-  const az = degToRad(azDeg);
-  const cosAlt = Math.cos(alt);
-  return new Vector3(cosAlt * Math.cos(az), cosAlt * Math.sin(az), Math.sin(alt));
 };
 
 /**

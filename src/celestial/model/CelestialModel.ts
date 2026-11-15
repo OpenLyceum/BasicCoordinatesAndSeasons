@@ -18,11 +18,11 @@ import type { CoordinateFormat } from "../../BasicCoordinatesAndSeasonsConstants
 export const DEFAULT_STAR_RA_HOURS = 8;
 export const DEFAULT_STAR_DEC_DEGREES = 30;
 
-export const STAR_RA_RANGE = new Range(0, 24);
-export const STAR_DEC_RANGE = new Range(-90, 90);
+const STAR_RA_RANGE = new Range(0, 24);
+const STAR_DEC_RANGE = new Range(-90, 90);
 
 /** Default flat-map RA offset (hours) — matches NAAP simpleFlatSkyMap initial offset. */
-export const DEFAULT_RA_OFFSET_HOURS = 16.5;
+const DEFAULT_RA_OFFSET_HOURS = 16.5;
 
 export class CelestialModel implements TModel {
   /** Right ascension of the point, in hours [0, 24). (No SI unit token for hours.) */

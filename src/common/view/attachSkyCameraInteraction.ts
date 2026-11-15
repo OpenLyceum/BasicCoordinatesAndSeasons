@@ -20,7 +20,7 @@ import { normalizeDegrees, radToDeg } from "../SkyCoordinates.js";
 import type { SkyProjection } from "../SkyProjection.js";
 
 /** Radians of camera rotation per pixel of pointer movement. */
-export const SKY_ROTATE_SPEED = 0.01;
+const SKY_ROTATE_SPEED = 0.01;
 
 /** Radians of camera rotation per keyboard arrow press. */
 const KEYBOARD_ROTATE_STEP = 0.1;

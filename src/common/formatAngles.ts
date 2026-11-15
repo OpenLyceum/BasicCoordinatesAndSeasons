@@ -16,7 +16,7 @@ export type HemisphereLetters = {
   west: string;
 };
 
-export const DEFAULT_HEMISPHERE_LETTERS: HemisphereLetters = { north: "N", south: "S", east: "E", west: "W" };
+const DEFAULT_HEMISPHERE_LETTERS: HemisphereLetters = { north: "N", south: "S", east: "E", west: "W" };
 
 /** Formats a latitude as e.g. `40.8° N` / `33.9° S`. */
 export function formatLatitude(

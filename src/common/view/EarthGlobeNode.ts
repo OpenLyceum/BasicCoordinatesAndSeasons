@@ -65,14 +65,14 @@ const gateBoth = (node: Node, a: TReadOnlyProperty<boolean>, b: TReadOnlyPropert
 };
 
 /** A named point (city) on the globe, in decimal degrees (+N, +E). */
-export type GlobeGeoPoint = {
+type GlobeGeoPoint = {
   readonly name: TReadOnlyProperty<string>;
   readonly latitude: number;
   readonly longitude: number;
 };
 
 /** A date-line-style vertex on the globe, in decimal degrees (+N, +E). */
-export type GlobeGeoVertex = { readonly latitude: number; readonly longitude: number };
+type GlobeGeoVertex = { readonly latitude: number; readonly longitude: number };
 
 /**
  * Optional geographically-anchored overlays drawn on the globe (Terrestrial screen):
@@ -80,7 +80,7 @@ export type GlobeGeoVertex = { readonly latitude: number; readonly longitude: nu
  * the International Date Line). Front-hemisphere culled and toggled by the shared
  * model Properties, mirroring the flat map.
  */
-export type GlobeOverlays = {
+type GlobeOverlays = {
   readonly cities: readonly GlobeGeoPoint[];
   readonly dateLine: readonly GlobeGeoVertex[];
   /** Latitudes (°) of the "geographical" reference small-circles: the tropics and polar circles. */

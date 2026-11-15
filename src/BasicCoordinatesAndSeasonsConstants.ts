@@ -29,9 +29,6 @@ export const PANEL_CORNER_RADIUS = 6;
 /** Font size (px) for the compact readout/control labels ported from the sibling motion2 sim. */
 export const CONTROL_FONT_SIZE = 12;
 
-/** Gap (px) between a projected sky view and its readout row. */
-export const VIEW_READOUT_GAP = 10;
-
 // ── Control chrome (ported from the sibling motion2 sim) ──────────────────────
 
 /** Side length (px) of a checkbox box. */
@@ -59,9 +56,6 @@ export const MAP_PAN_ANIMATION_DURATION = 0.4;
 
 /** Radius (px) of a full celestial sphere / globe projection. */
 export const SPHERE_RADIUS = 170;
-
-/** Convenience: the pixel extent of a sky view drawn at SPHERE_RADIUS. */
-export const SKY_VIEW_MAX_SIZE = SPHERE_RADIUS * 2;
 
 /** Radius (px) of a rendered star / point marker. */
 export const STAR_RADIUS = 5;
@@ -115,7 +109,6 @@ BasicCoordinatesAndSeasonsNamespace.register("BasicCoordinatesAndSeasonsConstant
   SCREEN_VIEW_MARGIN,
   PANEL_CORNER_RADIUS,
   CONTROL_FONT_SIZE,
-  VIEW_READOUT_GAP,
   CHECKBOX_BOX_WIDTH,
   STANDALONE_SLIDER_TRACK_SIZE,
   NUMBER_CONTROL_SLIDER_TRACK_SIZE,
@@ -124,7 +117,6 @@ BasicCoordinatesAndSeasonsNamespace.register("BasicCoordinatesAndSeasonsConstant
   MAP_PAN_STEP_DEGREES,
   MAP_PAN_ANIMATION_DURATION,
   SPHERE_RADIUS,
-  SKY_VIEW_MAX_SIZE,
   STAR_RADIUS,
   EARTH_MAP_RESOLUTION_VALUES,
   DEFAULT_EARTH_MAP_RESOLUTION,

@@ -35,7 +35,7 @@ export type CityKey =
   | "capeTown"
   | "mcMurdo";
 
-export type CityLabelSide = "left" | "right" | "top" | "bottom";
+type CityLabelSide = "left" | "right" | "top" | "bottom";
 
 export type City = {
   /** Key of the city's localized display name in the `cities` string group. */

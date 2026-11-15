@@ -13,7 +13,7 @@
  * (which also matches increasing mean right ascension along the ecliptic).
  */
 
-export type ZodiacStar = { name: string; raHours: number; decDeg: number };
+type ZodiacStar = { name: string; raHours: number; decDeg: number };
 export type ZodiacConstellation = { name: string; stars: ZodiacStar[]; edges: [number, number][] };
 
 export const ZODIAC_CONSTELLATIONS: ZodiacConstellation[] = [
