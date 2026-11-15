@@ -12,28 +12,7 @@
  * the sim's default observer location. Transcribed here as N to match.
  */
 
-/** One key per city in the `cities` group of strings_*.json. */
-export type CityKey =
-  | "buenosAires"
-  | "lima"
-  | "casablanca"
-  | "monrovia"
-  | "saoPaulo"
-  | "lincoln"
-  | "baghdad"
-  | "greenwich"
-  | "singapore"
-  | "havana"
-  | "canberra"
-  | "calcutta"
-  | "beijing"
-  | "reykjavik"
-  | "murmansk"
-  | "washingtonDC"
-  | "barrow"
-  | "moscow"
-  | "capeTown"
-  | "mcMurdo";
+import type { CityKey } from "../../common/model/CityKey.js";
 
 type CityLabelSide = "left" | "right" | "top" | "bottom";
 
@@ -70,3 +49,5 @@ export const CITIES: readonly City[] = [
   { key: "capeTown", latitude: -33.9167, longitude: 18.45, side: "bottom" },
   { key: "mcMurdo", latitude: -77.85, longitude: 166.6667, side: "left" },
 ];
+
+export type { CityKey } from "../../common/model/CityKey.js";

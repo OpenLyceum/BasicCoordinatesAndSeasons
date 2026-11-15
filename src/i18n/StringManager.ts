@@ -21,7 +21,7 @@
 
 import type { ReadOnlyProperty } from "scenerystack/axon";
 import { LocalizedString } from "scenerystack/chipper";
-import type { CityKey } from "../terrestrial/model/CityData.js";
+import type { CityKey } from "../common/model/CityKey.js";
 import stringsEn from "./strings_en.json";
 import stringsEs from "./strings_es.json";
 import stringsFr from "./strings_fr.json";
