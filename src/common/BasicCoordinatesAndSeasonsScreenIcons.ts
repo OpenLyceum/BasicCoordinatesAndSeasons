@@ -73,7 +73,7 @@ function continentsShape(centerX: number, centerY: number, radius: number): Shap
   for (const polygon of getEarthShorePolygons("low")) {
     // Clip the closed polygon to the front hemisphere, collecting visible unit-sphere
     // vertices plus limb crossings where an edge passes behind the globe.
-    const clipped: Array<[number, number, number]> = [];
+    const clipped: [number, number, number][] = [];
     const crossing = (
       a: { x: number; y: number; z: number },
       b: { x: number; y: number; z: number },
