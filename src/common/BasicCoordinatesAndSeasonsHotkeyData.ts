@@ -4,13 +4,16 @@
  * Single source of truth for the arrow-key bindings shared by the sim's
  * keyboard listeners:
  *   - ARROW_KEYS          — nudge a draggable marker (observer, star, Earth).
+ *   - MOVE_MARKER         — the same arrow keys as HotkeyData, for the help row.
  *   - ROTATE_SKY          — free-rotate the focused celestial sphere.
  *   - ROTATE_ABOUT_ZENITH — rotate the sphere about the zenith only.
  *
  * The two sphere bindings are HotkeyData, so the listener in
  * attachSkyCameraInteraction and the rows in SkySphereKeyboardHelpSection read
- * the same keys and labels. Marker nudging is documented by the stock
- * MoveDraggableItemsKeyboardHelpSection.
+ * the same keys and labels. Marker listeners bind ARROW_KEYS directly;
+ * MOVE_MARKER wraps that same list so MoveMarkerKeyboardHelpSection shows
+ * arrows only (the stock MoveDraggableItemsKeyboardHelpSection would also
+ * claim WASD and Shift fine movement, which no marker listener binds).
  */
 
 import { HotkeyData } from "scenerystack/scenery";
@@ -25,6 +28,14 @@ const controls = StringManager.getInstance().getControls();
 const BasicCoordinatesAndSeasonsHotkeyData = {
   /** Nudge a draggable marker (map/globe observer, sky-map star, orbiting Earth). */
   ARROW_KEYS,
+
+  /** Help-dialog binding for {@link ARROW_KEYS} marker nudging. */
+  MOVE_MARKER: new HotkeyData({
+    keys: [...ARROW_KEYS],
+    repoName: REPO_NAME,
+    keyboardHelpDialogLabelStringProperty: controls.moveMarkerStringProperty,
+    keyboardHelpDialogPDOMLabelStringProperty: controls.moveMarkerDescriptionStringProperty,
+  }),
 
   /** Free-rotate a focused celestial sphere. */
   ROTATE_SKY: new HotkeyData({
