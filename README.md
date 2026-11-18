@@ -72,6 +72,7 @@ npm start        # dev server → http://localhost:5173
 | `npm run release` | `check && lint && build && test`, then version patch + push tags |
 | `npm run clean` | Remove `dist/` |
 | `npm run decompile` | Extract ActionScript from NAAP Flash `.swf` sources |
+| `npm run generate:bright-star-catalog` | Regenerate the bright-star catalog after decompiling `skyMap028.swf` |
 
 New sims start at `version: "0.0.0"` in `package.json`. Bump only when cutting a release (for example `npm version patch` and a matching git tag). Keep `name` in kebab-case; it is separate from the SceneryStack sim identifier in `src/init.ts`, which reads its `version` from `package.json`.
 

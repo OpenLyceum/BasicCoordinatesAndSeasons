@@ -72,5 +72,6 @@ Each screen registers its own `*ScreenSummaryContent` (live `currentDetailsConte
 ## Development notes
 
 - **`npm run decompile`** extracts NAAP Flash ActionScript via JPEXS FFDec from `../Baseline/Astronomy/flash-animations` into gitignored `NAAP/decompiled/`; transcribe maths into typed TS in `src/`.
+- **`npm run generate:bright-star-catalog`** regenerates the catalog from the decompiled `skyMap028.swf` ActionScript.
 - Screens are independent; see [SceneryStackTemplate `doc/multi-screen.md`](https://github.com/OpenLyceum/SceneryStackTemplate/blob/main/doc/multi-screen.md) for the fleet multi-screen pattern.
 - After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).

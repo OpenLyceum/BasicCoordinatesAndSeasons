@@ -47,7 +47,8 @@
     "prepare": "test \"$(git rev-parse --show-toplevel 2>/dev/null)\" = \"$PWD\" && git config core.hooksPath .githooks || true",
     "knip": "knip",
     "test:architecture": "node --test tests/*.node-test.ts",
-    "decompile": "node scripts/decompile-flash.ts"
+    "decompile": "node scripts/decompile-flash.ts",
+    "generate:bright-star-catalog": "node scripts/generate-bright-star-catalog.ts"
   },
   "dependencies": {
     "scenerystack": "^3.0.0"

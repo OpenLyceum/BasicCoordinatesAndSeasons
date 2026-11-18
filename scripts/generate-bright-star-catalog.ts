@@ -20,7 +20,7 @@
  *   raHours = atan2(worldY, worldX) · 12 / π   (normalized [0, 24))
  *   decDeg  = asin(worldZ) · 180 / π
  *
- * Run: npx tsx scripts/generate-bright-star-catalog.ts
+ * Run `npm run generate:bright-star-catalog` after decompiling `skyMap028.swf`.
  * Output: src/celestial/model/BrightStarCatalog.ts
  */
 import { readFileSync, writeFileSync } from "node:fs";
@@ -182,8 +182,6 @@ const ts = `/**
  * equatorial coordinates via the disc rotation matrices (see the generator
  * for the math). ${visible.length} stars with visual magnitude <= 5.8.
  */
-export type CatalogStar = { raHours: number; decDeg: number; mag: number };
-
 export const BRIGHT_STAR_COUNT = ${visible.length};
 
 /** Flat arrays — index i → star i. mag <= 5.8 (naked-eye limit, per NAAP). */
