@@ -323,6 +323,7 @@ export class SeasonsScreenView extends ScreenView {
     const dateText = new Text(dateProperty, { font: new PhetFont(CONTROL_FONT_SIZE + 1), fill: textColor });
     const timeControl = new TimeControlNode(model.timer.isPlayingProperty, {
       timeSpeedProperty: model.timer.timeSpeedProperty,
+      timeSpeeds: [...model.timer.timeSpeeds],
       flowBoxSpacing: 14,
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {

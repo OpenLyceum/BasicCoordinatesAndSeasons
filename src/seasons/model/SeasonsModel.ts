@@ -22,6 +22,7 @@ import {
   DEFAULT_LATITUDE,
   LATITUDE_RANGE,
   SEASONS_ANIMATION_DAYS_PER_SECOND,
+  SEASONS_TIME_SPEED_MULTIPLIERS,
 } from "../../BasicCoordinatesAndSeasonsConstants.js";
 import {
   dayOfYearForEclipticLongitude,
@@ -57,7 +58,7 @@ export type SunbeamMode = (typeof SUNBEAM_MODES)[number];
 
 export class SeasonsModel implements TModel {
   /** Play/pause + elapsed-time clock. */
-  public readonly timer = new TimeModel();
+  public readonly timer = new TimeModel({ timeSpeedMultipliers: SEASONS_TIME_SPEED_MULTIPLIERS });
 
   /** Canonical state: the Sun's ecliptic longitude λ☉ (°, 0 = March equinox). */
   public readonly sunEclipticLongitudeProperty = new NumberProperty(DEFAULT_SUN_ECLIPTIC_LONGITUDE, {
@@ -142,7 +143,7 @@ export class SeasonsModel implements TModel {
 
   /** Move the Sun along the ecliptic by dt seconds of animation at the current speed. */
   private advanceSeason(dt: number): void {
-    const delta = (360 / DAYS_PER_YEAR) * SEASONS_ANIMATION_DAYS_PER_SECOND * this.timer.timeSpeedMultiplier * dt;
+    const delta = (360 / DAYS_PER_YEAR) * SEASONS_ANIMATION_DAYS_PER_SECOND * this.timer.speedMultiplier * dt;
     const next = (this.sunEclipticLongitudeProperty.value + delta) % 360;
     this.sunEclipticLongitudeProperty.value = next < 0 ? next + 360 : next;
   }

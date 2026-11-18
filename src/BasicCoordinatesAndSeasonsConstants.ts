@@ -16,6 +16,7 @@
  */
 
 import { Dimension2, Range } from "scenerystack/dot";
+import { TimeSpeed } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsNamespace from "./BasicCoordinatesAndSeasonsNamespace.js";
 
 // ── Layout / chrome (screen pixels) ───────────────────────────────────────────
@@ -105,6 +106,12 @@ export const DAYS_PER_YEAR = 365.24;
  */
 export const SEASONS_ANIMATION_DAYS_PER_SECOND = 5;
 
+/** Seasons playback speeds in display order → animation-rate multiplier (Slow runs at a third). */
+export const SEASONS_TIME_SPEED_MULTIPLIERS: ReadonlyMap<TimeSpeed, number> = new Map([
+  [TimeSpeed.NORMAL, 1],
+  [TimeSpeed.SLOW, 1 / 3],
+]);
+
 BasicCoordinatesAndSeasonsNamespace.register("BasicCoordinatesAndSeasonsConstants", {
   SCREEN_VIEW_MARGIN,
   PANEL_CORNER_RADIUS,
@@ -128,4 +135,5 @@ BasicCoordinatesAndSeasonsNamespace.register("BasicCoordinatesAndSeasonsConstant
   OBLIQUITY_DEGREES,
   DAYS_PER_YEAR,
   SEASONS_ANIMATION_DAYS_PER_SECOND,
+  SEASONS_TIME_SPEED_MULTIPLIERS,
 });
