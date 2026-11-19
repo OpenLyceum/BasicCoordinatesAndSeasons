@@ -7,6 +7,7 @@
  * the equatorial↔horizontal transforms round-trip.
  */
 
+import { Vector3 } from "scenerystack/dot";
 import { describe, expect, it } from "vitest";
 import {
   altitudeAtHourAngle,
@@ -155,5 +156,37 @@ describe("greatCircleDeclination", () => {
       );
       expect(point.dot(pole)).toBeCloseTo(0, 9);
     }
+  });
+});
+
+describe("transforms at the geographic poles", () => {
+  // Horizon-frame unit vector (+X north, +Y east, +Z up) for an alt/az pair.
+  const altAzVector = (altDeg: number, azDeg: number): Vector3 => {
+    const alt = degToRad(altDeg);
+    const az = degToRad(azDeg);
+    return new Vector3(Math.cos(alt) * Math.cos(az), Math.cos(alt) * Math.sin(az), Math.sin(alt));
+  };
+
+  it.each([-90, -89.999999, 89.999999, 90])("round-trips at latitude %s without polar divisions", (latitude) => {
+    for (const ra of [0, 2, 6, 17.9]) {
+      for (const dec of [-90, -30, 0, 30, 90]) {
+        const horizontal = equatorialToHorizontal(ra, dec, latitude, 0);
+        const vector = altAzVector(horizontal.altDeg, horizontal.azDeg);
+        expect(vector.distance(equatorialToHorizonVector(ra, dec, latitude, 0))).toBeLessThan(1e-12);
+        const back = horizontalToEquatorial(horizontal.altDeg, horizontal.azDeg, latitude, 0);
+        // RA is undefined at the celestial poles; compare sky directions instead.
+        expect(raDecToVector3(back.raHours, back.decDeg).distance(raDecToVector3(ra, dec))).toBeLessThan(1e-12);
+      }
+    }
+  });
+
+  it("keeps azimuth tied to the hour angle for a north-pole observer", () => {
+    // The old cos(latitude) division pinned every star at azimuth 270° here.
+    const horizontal = equatorialToHorizontal(2, 30, 90, 0);
+    expect(horizontal.azDeg).toBeCloseTo(150, 10);
+    expect(horizontal.altDeg).toBeCloseTo(30, 10);
+    const back = horizontalToEquatorial(horizontal.altDeg, horizontal.azDeg, 90, 0);
+    expect(back.raHours).toBeCloseTo(2, 10);
+    expect(back.decDeg).toBeCloseTo(30, 10);
   });
 });
