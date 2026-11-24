@@ -10,6 +10,7 @@
  */
 
 import { Multilink } from "scenerystack/axon";
+import { roundSymmetric } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { Node, Path, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
@@ -34,7 +35,7 @@ export class SunbeamSpreadNode extends Node {
 
     const cx = width / 2;
     const cy = height / 2 + 8;
-    const beamRadius = Math.round(width * 0.085);
+    const beamRadius = roundSymmetric(width * 0.085);
     const maxHalfLength = height / 2 - 6;
 
     // Top-down ground with a reference grid.

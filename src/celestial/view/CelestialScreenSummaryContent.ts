@@ -16,15 +16,15 @@ export class CelestialScreenSummaryContent extends ScreenSummaryContent {
   public constructor(model: CelestialModel) {
     const a11y = StringManager.getInstance().getCelestialA11yStrings();
 
-    const raReadout = new DerivedProperty([model.starRaProperty], (ra) => toFixed(ra, 1));
-    const decReadout = new DerivedProperty([model.starDecProperty], (dec) => toFixed(dec, 1));
+    const raReadoutProperty = new DerivedProperty([model.starRaProperty], (ra) => toFixed(ra, 1));
+    const decReadoutProperty = new DerivedProperty([model.starDecProperty], (dec) => toFixed(dec, 1));
 
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
       currentDetailsContent: new PatternStringProperty(a11y.currentDetailsPatternStringProperty, {
-        ra: raReadout,
-        dec: decReadout,
+        ra: raReadoutProperty,
+        dec: decReadoutProperty,
       }),
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });

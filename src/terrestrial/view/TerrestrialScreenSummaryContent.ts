@@ -17,11 +17,11 @@ export class TerrestrialScreenSummaryContent extends ScreenSummaryContent {
     const a11y = StringManager.getInstance().getTerrestrialA11yStrings();
     const controls = StringManager.getInstance().getControls();
 
-    const latitudeReadout = new DerivedProperty(
+    const latitudeReadoutProperty = new DerivedProperty(
       [model.latitudeProperty, controls.northStringProperty, controls.southStringProperty],
       (lat, north, south) => formatLatitude(lat, 1, { north, south, east: "", west: "" }),
     );
-    const longitudeReadout = new DerivedProperty(
+    const longitudeReadoutProperty = new DerivedProperty(
       [model.longitudeProperty, controls.eastStringProperty, controls.westStringProperty],
       (lon, east, west) => formatLongitude(lon, 1, { north: "", south: "", east, west }),
     );
@@ -30,8 +30,8 @@ export class TerrestrialScreenSummaryContent extends ScreenSummaryContent {
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
       currentDetailsContent: new PatternStringProperty(a11y.currentDetailsPatternStringProperty, {
-        latitude: latitudeReadout,
-        longitude: longitudeReadout,
+        latitude: latitudeReadoutProperty,
+        longitude: longitudeReadoutProperty,
       }),
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
