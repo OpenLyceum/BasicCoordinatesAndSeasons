@@ -38,7 +38,7 @@ const SUN_ARROW_LENGTH_RATIO = 0.62;
 export class SeasonsSphereNode extends Node {
   public constructor(projection: SkyProjection, model: SeasonsModel) {
     const controls = StringManager.getInstance().getControls();
-    const off = new Property(false);
+    const offProperty = new Property(false);
 
     // Shared sphere, configured for the Seasons look: only the equator (grey) and
     // ecliptic (green) great circles; no graticule, hour circle, galactic equator,
@@ -46,11 +46,11 @@ export class SeasonsSphereNode extends Node {
     const sphere = new CelestialSphereNode(projection, {
       celestialEquatorColor: BasicCoordinatesAndSeasonsColors.seasonsCelestialEquatorColorProperty,
       eclipticColor: BasicCoordinatesAndSeasonsColors.seasonsEclipticColorProperty,
-      gridVisibleProperty: off,
-      hourCircleVisibleProperty: off,
-      galacticEquatorVisibleProperty: off,
-      labelsVisibleProperty: off,
-      equinoxesAndSolsticesVisibleProperty: off,
+      gridVisibleProperty: offProperty,
+      hourCircleVisibleProperty: offProperty,
+      galacticEquatorVisibleProperty: offProperty,
+      labelsVisibleProperty: offProperty,
+      equinoxesAndSolsticesVisibleProperty: offProperty,
     });
 
     // Small reference Earth at the centre, sandwiched between the dashed (far) and
@@ -135,7 +135,7 @@ export class SeasonsSphereNode extends Node {
     // Places a great-circle label at the front-facing sample point whose projected
     // position lands nearest `target` (a screen point relative to the sphere
     // centre). Anchoring to an interior target — rather than a circle extreme —
-    // keeps the label off the rim, so the ecliptic label stays clear of the
+    // keeps the label offProperty the rim, so the ecliptic label stays clear of the
     // autumnal-equinox marker it would otherwise sit on top of.
     const placeCircleLabel = (label: Text, axis: Vector3, target: Vector2): void => {
       let best: Vector2 | null = null;

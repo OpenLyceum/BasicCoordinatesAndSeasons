@@ -7,7 +7,7 @@
  * pass localized strings; they default to English N/S/E/W for the unit tests.
  */
 
-import { toFixed } from "scenerystack/dot";
+import { roundSymmetric, toFixed } from "scenerystack/dot";
 
 export type HemisphereLetters = {
   north: string;
@@ -45,7 +45,7 @@ export function formatLongitude(
  * (e.g. 40.8 → 48′, never 47′).
  */
 function formatDegreesMinutes(angleDeg: number): string {
-  const totalSeconds = Math.round(Math.abs(angleDeg) * 3600);
+  const totalSeconds = roundSymmetric(Math.abs(angleDeg) * 3600);
   const degrees = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const paddedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;

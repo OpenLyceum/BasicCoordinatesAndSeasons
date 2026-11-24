@@ -30,7 +30,7 @@ import {
   type Property,
   type TReadOnlyProperty,
 } from "scenerystack/axon";
-import { toFixed, Vector2 } from "scenerystack/dot";
+import { roundSymmetric, toFixed, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { StringUtils } from "scenerystack/phetcommon";
 import { DragListener, KeyboardListener, Node, Path, Rectangle, Text } from "scenerystack/scenery";
@@ -337,7 +337,7 @@ export class FlatSkyMapNode extends Node {
         if (fmt === "sexagesimal") {
           // Round to whole minutes first, then carry, so 8.999ʰ reads "9ʰ 0ᵐ" (not "8ʰ 60ᵐ");
           // wrap the hour mod 24 so a value rounding up from 23.99ʰ shows "0ʰ".
-          const totalMinutes = Math.round(ra * 60);
+          const totalMinutes = roundSymmetric(ra * 60);
           return StringUtils.fillIn(sexagesimalPattern, {
             hours: Math.floor(totalMinutes / 60) % HOURS_PER_DAY,
             minutes: totalMinutes % 60,
@@ -356,7 +356,7 @@ export class FlatSkyMapNode extends Node {
       (dec, fmt, sexagesimalPattern, decimalPattern) => {
         if (fmt === "sexagesimal") {
           // Round to whole arc-minutes first, then carry, so 29.999° reads "30° 0′" (not "29° 60′").
-          const totalMinutes = Math.round(Math.abs(dec) * 60);
+          const totalMinutes = roundSymmetric(Math.abs(dec) * 60);
           return StringUtils.fillIn(sexagesimalPattern, {
             sign: dec >= 0 ? "+" : "-",
             degrees: Math.floor(totalMinutes / 60),

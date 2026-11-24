@@ -159,7 +159,7 @@ export class EarthFromSunNode extends Node {
     }
 
     const project = (v: Vector3): Vector2 => projection.project(v);
-    const resolution = new Property(DEFAULT_EARTH_MAP_RESOLUTION);
+    const resolutionProperty = new Property(DEFAULT_EARTH_MAP_RESOLUTION);
 
     // Drive the camera to look straight down the Sun→Earth line. The view frame is
     // built from three orthonormal RA/Dec-frame axes so that:
@@ -220,7 +220,7 @@ export class EarthFromSunNode extends Node {
       (_matrix, latitude, subsolarVisible) => {
         // Land: front-hemisphere coastline fills, clipped to the disc.
         const landShape = new Shape();
-        for (const polygon of getEarthShorePolygons(resolution.value)) {
+        for (const polygon of getEarthShorePolygons(resolutionProperty.value)) {
           const vertices = polygon.map(shorePointToVector);
           addFrontHemisphereSphericalPolygon(projection, vertices, landShape, project, Vector2.ZERO, r);
         }

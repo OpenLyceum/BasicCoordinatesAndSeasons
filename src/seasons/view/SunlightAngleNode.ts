@@ -11,6 +11,7 @@
  */
 
 import { Multilink } from "scenerystack/axon";
+import { roundSymmetric } from "scenerystack/dot";
 import { Node, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { ArrowNode, PhetFont } from "scenerystack/scenery-phet";
 import BasicCoordinatesAndSeasonsColors from "../../BasicCoordinatesAndSeasonsColors.js";
@@ -34,7 +35,7 @@ export class SunlightAngleNode extends Node {
     const controls = StringManager.getInstance().getControls();
     const font = new PhetFont(CONTROL_FONT_SIZE);
 
-    const groundLevel = Math.round(height * 0.72);
+    const groundLevel = roundSymmetric(height * 0.72);
     const rayLength = height * 0.9;
 
     const sky = new Rectangle(0, 0, width, groundLevel, {
